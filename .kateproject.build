@@ -1,0 +1,18 @@
+{
+    "Auto_generated": "This file is auto-generated. Any extra tags or formatting will be lost",
+    "target_sets": [
+        {
+            "cmake_config": "",
+            "directory": "/home/fish/Documents/pebble/pebble-lexiclock/",
+            "loaded_via_cmake": false,
+            "name": "Target Set",
+            "targets": [
+                {
+                    "build_cmd": "pebble build",
+                    "name": "Debug",
+                    "run_cmd": "pebble install --emulator basalt --log"
+                }
+            ]
+        }
+    ]
+}
