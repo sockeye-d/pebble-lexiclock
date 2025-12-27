@@ -29,11 +29,14 @@ typedef enum {
 	OFFSET_DIRECTION_NONE,
 } OffsetDirection;
 
-static struct WordTime {
+typedef struct {
 	MinuteOffset minute_offset;
 	OffsetDirection offset_direction;
 	int hour;
-} word_time;
+} WordTime;
+
+static WordTime last_word_time;
+static WordTime word_time;
 
 static char strings[8][12] = {
 	"it-is-twenty",
@@ -58,35 +61,45 @@ static int animation_y		   = -1;
 
 static uint8_t bitmaps[2][26][BITMAP_SIZE];
 
+enum AnimationState {
+	ANIMATION_JUST_ENDED = -2,
+	ANIMATION_ENDED		 = -1,
+	ANIMATION_START		 = 0,
+};
+
 static void animation_callback(void *data) {
-	animation_y++;
+	animation_y += 1;
 	layer_mark_dirty(main_layer);
-	if (animation_y >= 8) {
-		animation_y = -1;
+	if (animation_y >= 10) {
+		animation_y = ANIMATION_JUST_ENDED;
 		return;
 	}
 	app_timer_register(50, animation_callback, NULL);
 }
 
-static void load_font_atlases(GBitmap *atlas[26], uint8_t bitmap_storage[26][BITMAP_SIZE]) {
+static void load_font_atlases(GBitmap *atlas[26],
+		uint8_t bitmap_storage[26][BITMAP_SIZE]) {
 	for (int i = 0; i < 26; i++) {
 		const GBitmap *bitmap	  = base_font_atlas[i];
 		const uint8_t *first_data = gbitmap_get_data(bitmap);
-		uint8_t *new_data		  = memcpy(bitmap_storage[i], first_data, BITMAP_SIZE);
-		GBitmap *ptr			  = gbitmap_create_blank(GSize(10, 20), GBitmapFormat8Bit);
+		memcpy(bitmap_storage[i], first_data, BITMAP_SIZE);
+		GBitmap *ptr = gbitmap_create_blank(GSize(10, 20), GBitmapFormat8Bit);
 		gbitmap_set_data(ptr, bitmap_storage[i], GBitmapFormat8Bit, 10, false);
 		atlas[i] = ptr;
 	}
 }
 
-static void modulate_font_atlas(GBitmap *target[26], GColor background, GColor foreground) {
+static void modulate_font_atlas(GBitmap *target[26], GColor background,
+		GColor foreground) {
 	for (int i = 0; i < 26; i++) {
 		GColor8 *bitmap = (GColor8 *)gbitmap_get_data(target[i]);
 		for (int y = 0; y < 20; y++) {
 			for (int x = 0; x < 10; x++) {
 				GColor8 pixel	   = (GColor8)(bitmap[y * 10 + x]);
 				uint8_t brightness = pixel.r;
-				bitmap[y * 10 + x] = GColorFromRGBA(foreground.r << 6, foreground.g << 6, foreground.b << 6, brightness << 6);
+				bitmap[y * 10 + x] =
+						GColorFromRGBA(foreground.r << 6, foreground.g << 6,
+								foreground.b << 6, brightness << 6);
 			}
 		}
 	}
@@ -122,9 +135,12 @@ static int get_minute_offset(int minute) {
 }
 
 static void parse_word_time(int hour_24, int minute) {
-	word_time.hour			   = POSMOD(hour_24 - 1, 12) + 1;
-	word_time.offset_direction = minute > 34 ? OFFSET_DIRECTION_TO : OFFSET_DIRECTION_PAST;
-	word_time.minute_offset	   = get_minute_offset(word_time.offset_direction == OFFSET_DIRECTION_TO ? 64 - minute : minute);
+	last_word_time = word_time;
+	word_time.hour = POSMOD(hour_24 - 1, 12) + 1;
+	word_time.offset_direction =
+			minute > 34 ? OFFSET_DIRECTION_TO : OFFSET_DIRECTION_PAST;
+	word_time.minute_offset = get_minute_offset(
+			word_time.offset_direction == OFFSET_DIRECTION_TO ? 64 - minute : minute);
 	if (word_time.offset_direction == OFFSET_DIRECTION_TO) {
 		word_time.hour = (word_time.hour + 1) % 12;
 	}
@@ -133,18 +149,24 @@ static void parse_word_time(int hour_24, int minute) {
 	}
 }
 
-void on_time_changed(struct tm *tick_time, TimeUnits units_changed) {
-	parse_word_time(tick_time->tm_hour, tick_time->tm_min);
-	app_timer_register(50, animation_callback, NULL);
-	animation_y = 0;
-	animation_ticks++;
-	layer_mark_dirty(main_layer);
+static bool word_time_changed() {
+	return last_word_time.hour != word_time.hour || last_word_time.minute_offset != word_time.minute_offset || last_word_time.offset_direction != word_time.offset_direction;
 }
 
+void on_time_changed(struct tm *tick_time, TimeUnits units_changed) {
+	parse_word_time(tick_time->tm_hour, tick_time->tm_min);
+	if (word_time_changed()) {
+		app_timer_register(50, animation_callback, NULL);
+		animation_y = 0;
+		animation_ticks++;
+	}
+}
+
+static bool last_state[8][12];
+
 static void main_layer_draw(Layer *layer, GContext *ctx) {
-	int y				   = 6;
-	bool lit			   = true;
-	GColor last_text_color = GColorWhite;
+	int y	 = 6;
+	bool lit = true;
 	graphics_context_set_compositing_mode(ctx, GCompOpSet);
 	for (size_t i = 0; i < 8; i++) {
 		int x = 6;
@@ -165,9 +187,7 @@ static void main_layer_draw(Layer *layer, GContext *ctx) {
 					}
 					break;
 				case 2:
-					switch (j) {
-						X(7, IS_MINUTE(HALF));
-					}
+					switch (j) { X(7, IS_MINUTE(HALF)); }
 					break;
 				case 3:
 					switch (j) {
@@ -205,24 +225,41 @@ static void main_layer_draw(Layer *layer, GContext *ctx) {
 					}
 					break;
 			}
-			bool really_lit		= lit;
-			bool is_placeholder = ch == '-';
+			if (animation_y == -2) {
+				last_state[i][j] = lit;
+			}
+			bool really_lit		   = lit;
+			bool is_placeholder	   = ch == '-';
+			int distance		   = (i - 4) * (i - 4) * 3 + (j - 6) * (j - 6);
+			bool in_animation	   = distance > animation_y * animation_y;
+			int distance_fac	   = distance - animation_y * animation_y;
+			bool in_animation_edge = distance_fac <= 0 && distance_fac > -32;
 			if (is_placeholder) {
 				int seed = animation_ticks;
-				if (animation_y != -1 && (int)i > animation_y) {
+				if (animation_y > ANIMATION_ENDED && in_animation) {
 					seed--;
 				}
 				ch		   = pick_random_char(i, j, seed);
 				really_lit = false;
+			} else if (in_animation_edge && !lit && animation_y > ANIMATION_ENDED) {
+				ch		   = pick_random_char(i, j, animation_ticks);
+				really_lit = true;
+			} else if (animation_y > ANIMATION_ENDED) {
+				if (in_animation) {
+					really_lit = last_state[i][j];
+				}
 			}
-			graphics_draw_bitmap_in_rect(ctx, (really_lit ? font_atlas : faint_font_atlas)[ch - 'a'], GRect(x, y, 10, 20));
+			graphics_draw_bitmap_in_rect(
+					ctx, (really_lit ? font_atlas : faint_font_atlas)[ch - 'a'],
+					GRect(x, y, 10, 20));
 			x += 11;
 		}
 		y += 20;
 	}
+	if (animation_y == ANIMATION_JUST_ENDED) {
+		animation_y = ANIMATION_ENDED;
+	}
 }
-
-#define LOAD_ATLAS(num) base_font_atlas[num] = gbitmap_create_with_resource(RESOURCE_ID_IOSEVKA_ATLAS_##num)
 
 static void on_window_load(Window *window) {
 	Layer *window_layer = window_get_root_layer(window);
@@ -230,37 +267,16 @@ static void on_window_load(Window *window) {
 
 	window_set_background_color(window, GColorBlack);
 
-	LOAD_ATLAS(0);
-	LOAD_ATLAS(1);
-	LOAD_ATLAS(2);
-	LOAD_ATLAS(3);
-	LOAD_ATLAS(4);
-	LOAD_ATLAS(5);
-	LOAD_ATLAS(6);
-	LOAD_ATLAS(7);
-	LOAD_ATLAS(8);
-	LOAD_ATLAS(9);
-	LOAD_ATLAS(10);
-	LOAD_ATLAS(11);
-	LOAD_ATLAS(12);
-	LOAD_ATLAS(13);
-	LOAD_ATLAS(14);
-	LOAD_ATLAS(15);
-	LOAD_ATLAS(16);
-	LOAD_ATLAS(17);
-	LOAD_ATLAS(18);
-	LOAD_ATLAS(19);
-	LOAD_ATLAS(20);
-	LOAD_ATLAS(21);
-	LOAD_ATLAS(22);
-	LOAD_ATLAS(23);
-	LOAD_ATLAS(24);
-	LOAD_ATLAS(25);
+	for (int id = RESOURCE_ID_IOSEVKA_ATLAS_0;
+			id < RESOURCE_ID_IOSEVKA_ATLAS_25 + 1; id++) {
+		base_font_atlas[id - RESOURCE_ID_IOSEVKA_ATLAS_0] =
+				gbitmap_create_with_resource(id);
+	}
 
 	load_font_atlases(faint_font_atlas, bitmaps[0]);
 	load_font_atlases(font_atlas, bitmaps[1]);
 	modulate_font_atlas(faint_font_atlas, GColorBlack, GColorDarkGray);
-	modulate_font_atlas(font_atlas, GColorBlack, GColorYellow);
+	modulate_font_atlas(font_atlas, GColorBlack, GColorWhite);
 
 	main_layer = layer_create(bounds);
 	layer_add_child(window_layer, main_layer);
