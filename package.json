@@ -14,7 +14,8 @@
     "sdkVersion": "3",
     "enableMultiJS": true,
     "targetPlatforms": [
-      "basalt"
+      "basalt",
+      "emery"
     ],
     "watchapp": {
       "watchface": true
@@ -201,6 +202,188 @@
           "type": "bitmap",
           "name": "IOSEVKA_ATLAS_25",
           "file": "font-atlas/25.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_0",
+          "file": "font-atlas-bold/00.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_1",
+          "file": "font-atlas-bold/01.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_2",
+          "file": "font-atlas-bold/02.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_3",
+          "file": "font-atlas-bold/03.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_4",
+          "file": "font-atlas-bold/04.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_5",
+          "file": "font-atlas-bold/05.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_6",
+          "file": "font-atlas-bold/06.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_7",
+          "file": "font-atlas-bold/07.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_8",
+          "file": "font-atlas-bold/08.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_9",
+          "file": "font-atlas-bold/09.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_10",
+          "file": "font-atlas-bold/10.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_11",
+          "file": "font-atlas-bold/11.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_12",
+          "file": "font-atlas-bold/12.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_13",
+          "file": "font-atlas-bold/13.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_14",
+          "file": "font-atlas-bold/14.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_15",
+          "file": "font-atlas-bold/15.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_16",
+          "file": "font-atlas-bold/16.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_17",
+          "file": "font-atlas-bold/17.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_18",
+          "file": "font-atlas-bold/18.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_19",
+          "file": "font-atlas-bold/19.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_20",
+          "file": "font-atlas-bold/20.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_21",
+          "file": "font-atlas-bold/21.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_22",
+          "file": "font-atlas-bold/22.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_23",
+          "file": "font-atlas-bold/23.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_24",
+          "file": "font-atlas-bold/24.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_25",
+          "file": "font-atlas-bold/25.png",
           "memoryFormat": "8Bit",
           "spaceOptimization": "memory"
         }

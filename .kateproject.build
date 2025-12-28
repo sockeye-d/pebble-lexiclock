@@ -8,9 +8,9 @@
             "name": "Target Set",
             "targets": [
                 {
-                    "build_cmd": "pebble build",
+                    "build_cmd": "",
                     "name": "Debug",
-                    "run_cmd": "pebble install --emulator basalt --log"
+                    "run_cmd": "use build.nu; build emulator"
                 }
             ]
         }

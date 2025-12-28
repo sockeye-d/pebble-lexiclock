@@ -9,6 +9,16 @@ export def main [] {
             spaceOptimization: memory,
         }
     }
+    let bold_media = ls resources/font-atlas-bold/*.png | each {|file|
+        let parsed_path = $file.name | path parse
+        {
+            type: bitmap,
+            name: $"IOSEVKA_ATLAS_BOLD_($parsed_path.stem | into int)",
+            file: ($file.name | path split | slice 1.. | path join),
+            memoryFormat: 8Bit,
+            spaceOptimization: memory,
+        }
+    }
     {
         name: lexiclock,
         author: fishy,
@@ -26,12 +36,12 @@ export def main [] {
                 basalt,
 #                 chalk,
 #                 diorite,
-#                 emery,
+                emery,
             ],
             watchapp: { watchface: true },
             messageKeys: [],
             resources: {
-                media: $media,
+                media: ($media ++ $bold_media),
             },
         },
     }

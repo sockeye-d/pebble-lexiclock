@@ -50,6 +50,7 @@ static char strings[8][12] = {
 };
 
 static GBitmap *base_font_atlas[26];
+static GBitmap *base_bold_font_atlas[26];
 static GBitmap *faint_font_atlas[26];
 static GBitmap *font_atlas[26];
 
@@ -77,10 +78,9 @@ static void animation_callback(void *data) {
 	app_timer_register(50, animation_callback, NULL);
 }
 
-static void load_font_atlases(GBitmap *atlas[26],
-		uint8_t bitmap_storage[26][BITMAP_SIZE]) {
+static void load_font_atlases(GBitmap *base_atlas[26], GBitmap *atlas[26], uint8_t bitmap_storage[26][BITMAP_SIZE]) {
 	for (int i = 0; i < 26; i++) {
-		const GBitmap *bitmap	  = base_font_atlas[i];
+		const GBitmap *bitmap	  = base_atlas[i];
 		const uint8_t *first_data = gbitmap_get_data(bitmap);
 		memcpy(bitmap_storage[i], first_data, BITMAP_SIZE);
 		GBitmap *ptr = gbitmap_create_blank(GSize(10, 20), GBitmapFormat8Bit);
@@ -89,8 +89,7 @@ static void load_font_atlases(GBitmap *atlas[26],
 	}
 }
 
-static void modulate_font_atlas(GBitmap *target[26], GColor background,
-		GColor foreground) {
+static void modulate_font_atlas(GBitmap *target[26], GColor background, GColor foreground) {
 	for (int i = 0; i < 26; i++) {
 		GColor8 *bitmap = (GColor8 *)gbitmap_get_data(target[i]);
 		for (int y = 0; y < 20; y++) {
@@ -267,16 +266,18 @@ static void on_window_load(Window *window) {
 
 	window_set_background_color(window, GColorBlack);
 
-	for (int id = RESOURCE_ID_IOSEVKA_ATLAS_0;
-			id < RESOURCE_ID_IOSEVKA_ATLAS_25 + 1; id++) {
-		base_font_atlas[id - RESOURCE_ID_IOSEVKA_ATLAS_0] =
-				gbitmap_create_with_resource(id);
+	for (int id = RESOURCE_ID_IOSEVKA_ATLAS_0; id < RESOURCE_ID_IOSEVKA_ATLAS_25 + 1; id++) {
+		base_font_atlas[id - RESOURCE_ID_IOSEVKA_ATLAS_0] = gbitmap_create_with_resource(id);
 	}
 
-	load_font_atlases(faint_font_atlas, bitmaps[0]);
-	load_font_atlases(font_atlas, bitmaps[1]);
+	for (int id = RESOURCE_ID_IOSEVKA_ATLAS_BOLD_0; id < RESOURCE_ID_IOSEVKA_ATLAS_BOLD_25 + 1; id++) {
+		base_bold_font_atlas[id - RESOURCE_ID_IOSEVKA_ATLAS_BOLD_0] = gbitmap_create_with_resource(id);
+	}
+
+	load_font_atlases(base_font_atlas, faint_font_atlas, bitmaps[0]);
+	load_font_atlases(base_bold_font_atlas, font_atlas, bitmaps[1]);
 	modulate_font_atlas(faint_font_atlas, GColorBlack, GColorDarkGray);
-	modulate_font_atlas(font_atlas, GColorBlack, GColorWhite);
+	modulate_font_atlas(font_atlas, GColorBlack, GColorInchworm);
 
 	main_layer = layer_create(bounds);
 	layer_add_child(window_layer, main_layer);
