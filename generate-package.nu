@@ -1,20 +1,20 @@
 export def main [] {
-    let media = ls resources/font-atlas/*.png | each {|file|
+    let media = ls resources/font-atlas/*~144w.png | each {|file|
         let parsed_path = $file.name | path parse
         {
             type: bitmap,
-            name: $"IOSEVKA_ATLAS_($parsed_path.stem | into int)",
-            file: ($file.name | path split | slice 1.. | path join),
+            name: $"IOSEVKA_ATLAS_($parsed_path.stem | parse --regex "(?<num>[0-9]+).*" | get num | first | into int)",
+            file: ($file.name | path split | slice 1.. | path join | str replace "~144w.png" ".png"),
             memoryFormat: 8Bit,
             spaceOptimization: memory,
         }
     }
-    let bold_media = ls resources/font-atlas-bold/*.png | each {|file|
+    let bold_media = ls resources/font-atlas-bold/*~144w.png | each {|file|
         let parsed_path = $file.name | path parse
         {
             type: bitmap,
-            name: $"IOSEVKA_ATLAS_BOLD_($parsed_path.stem | into int)",
-            file: ($file.name | path split | slice 1.. | path join),
+            name: $"IOSEVKA_ATLAS_BOLD_($parsed_path.stem | parse --regex "(?<num>[0-9]+).*" | get num | first | into int)",
+            file: ($file.name | path split | slice 1.. | path join | str replace "~144w.png" ".png"),
             memoryFormat: 8Bit,
             spaceOptimization: memory,
         }

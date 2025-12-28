@@ -57,8 +57,36 @@ static GBitmap *font_atlas[26];
 static int32_t animation_ticks = INT32_MIN;
 static int animation_y		   = -1;
 
-// 10 bytes * 20 rows + 12 header bytes
-#define BITMAP_SIZE (10 * 20 /* + 12 */)
+#define PlatformTypeAplite 0
+#define PlatformTypeBasalt 1
+#define PlatformTypeChalk 2
+#define PlatformTypeDiorite 3
+#define PlatformTypeEmery 4
+
+#if PBL_PLATFORM_TYPE_CURRENT == PlatformTypeEmery
+#define BITMAP_WIDTH 14
+#define BITMAP_HEIGHT 30
+#define CHAR_X_OFFSET 16
+#define CHAR_Y_OFFSET 10
+#define CHAR_X_STEP 14
+#define CHAR_Y_STEP 26
+#elif PBL_PLATFORM_TYPE_CURRENT == PlatformTypeBasalt
+#define BITMAP_WIDTH 10
+#define BITMAP_HEIGHT 20
+#define CHAR_X_OFFSET 6
+#define CHAR_Y_OFFSET 6
+#define CHAR_X_STEP 11
+#define CHAR_Y_STEP 20
+#endif
+
+#undef PlatformTypeAplite
+#undef PlatformTypeBasalt
+#undef PlatformTypeChalk
+#undef PlatformTypeDiorite
+#undef PlatformTypeEmery
+
+// 1 byte per pixel
+#define BITMAP_SIZE (BITMAP_WIDTH * BITMAP_HEIGHT)
 
 static uint8_t bitmaps[2][26][BITMAP_SIZE];
 
@@ -83,8 +111,8 @@ static void load_font_atlases(GBitmap *base_atlas[26], GBitmap *atlas[26], uint8
 		const GBitmap *bitmap	  = base_atlas[i];
 		const uint8_t *first_data = gbitmap_get_data(bitmap);
 		memcpy(bitmap_storage[i], first_data, BITMAP_SIZE);
-		GBitmap *ptr = gbitmap_create_blank(GSize(10, 20), GBitmapFormat8Bit);
-		gbitmap_set_data(ptr, bitmap_storage[i], GBitmapFormat8Bit, 10, false);
+		GBitmap *ptr = gbitmap_create_blank(GSize(BITMAP_WIDTH, BITMAP_HEIGHT), GBitmapFormat8Bit);
+		gbitmap_set_data(ptr, bitmap_storage[i], GBitmapFormat8Bit, BITMAP_WIDTH, false);
 		atlas[i] = ptr;
 	}
 }
@@ -92,11 +120,11 @@ static void load_font_atlases(GBitmap *base_atlas[26], GBitmap *atlas[26], uint8
 static void modulate_font_atlas(GBitmap *target[26], GColor background, GColor foreground) {
 	for (int i = 0; i < 26; i++) {
 		GColor8 *bitmap = (GColor8 *)gbitmap_get_data(target[i]);
-		for (int y = 0; y < 20; y++) {
-			for (int x = 0; x < 10; x++) {
-				GColor8 pixel	   = (GColor8)(bitmap[y * 10 + x]);
+		for (int y = 0; y < BITMAP_HEIGHT; y++) {
+			for (int x = 0; x < BITMAP_WIDTH; x++) {
+				GColor8 pixel	   = (GColor8)(bitmap[y * BITMAP_WIDTH + x]);
 				uint8_t brightness = pixel.r;
-				bitmap[y * 10 + x] =
+				bitmap[y * BITMAP_WIDTH + x] =
 						GColorFromRGBA(foreground.r << 6, foreground.g << 6,
 								foreground.b << 6, brightness << 6);
 			}
@@ -164,11 +192,11 @@ void on_time_changed(struct tm *tick_time, TimeUnits units_changed) {
 static bool last_state[8][12];
 
 static void main_layer_draw(Layer *layer, GContext *ctx) {
-	int y	 = 6;
+	int y	 = CHAR_Y_OFFSET;
 	bool lit = true;
 	graphics_context_set_compositing_mode(ctx, GCompOpSet);
 	for (size_t i = 0; i < 8; i++) {
-		int x = 6;
+		int x = CHAR_X_OFFSET;
 		for (size_t j = 0; j < 12; j++) {
 			char ch = strings[i][j];
 			switch (i) {
@@ -250,10 +278,10 @@ static void main_layer_draw(Layer *layer, GContext *ctx) {
 			}
 			graphics_draw_bitmap_in_rect(
 					ctx, (really_lit ? font_atlas : faint_font_atlas)[ch - 'a'],
-					GRect(x, y, 10, 20));
-			x += 11;
+					GRect(x, y, BITMAP_WIDTH, BITMAP_HEIGHT));
+			x += CHAR_X_STEP;
 		}
-		y += 20;
+		y += CHAR_Y_STEP;
 	}
 	if (animation_y == ANIMATION_JUST_ENDED) {
 		animation_y = ANIMATION_ENDED;
