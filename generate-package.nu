@@ -25,23 +25,36 @@ export def main [] {
         version: "1.0.0",
         keywords: [ "pebble-watchface" ],
         private: true,
-        dependencies: {},
+        dependencies: {
+            pebble-clay: "^1.0.4"
+        },
+        capabilities: [
+            configurable,
+        ],
         pebble: {
             displayName: lexiclock,
             uuid: 1c6a1f0b-8194-491f-acc4-fc06a6f9966d,
             sdkVersion: "3",
             enableMultiJS: true,
             targetPlatforms: [
-#                 aplite,
                 basalt,
-#                 chalk,
-#                 diorite,
                 emery,
             ],
             watchapp: { watchface: true },
-            messageKeys: [],
+            messageKeys: [
+                bg_color,
+                faint_color,
+                bright_color,
+                faint_bold,
+                bright_bold,
+            ],
             resources: {
-                media: ($media ++ $bold_media),
+                media: ($media ++ $bold_media ++ [{
+                    type: bitmap,
+                    menuIcon: true,
+                    name: IMAGE_MENU_ICON,
+                    file: launcher.png
+                }]),
             },
         },
     }

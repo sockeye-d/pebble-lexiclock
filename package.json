@@ -7,7 +7,12 @@
     "pebble-watchface"
   ],
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "pebble-clay": "^1.0.4"
+  },
+  "capabilities": [
+    "configurable"
+  ],
   "pebble": {
     "displayName": "lexiclock",
     "uuid": "1c6a1f0b-8194-491f-acc4-fc06a6f9966d",
@@ -20,7 +25,13 @@
     "watchapp": {
       "watchface": true
     },
-    "messageKeys": [],
+    "messageKeys": [
+      "bg_color",
+      "faint_color",
+      "bright_color",
+      "faint_bold",
+      "bright_bold"
+    ],
     "resources": {
       "media": [
         {
@@ -386,6 +397,12 @@
           "file": "font-atlas-bold/25.png",
           "memoryFormat": "8Bit",
           "spaceOptimization": "memory"
+        },
+        {
+          "type": "bitmap",
+          "menuIcon": true,
+          "name": "IMAGE_MENU_ICON",
+          "file": "launcher.png"
         }
       ]
     }
