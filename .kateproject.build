@@ -10,7 +10,7 @@
                 {
                     "build_cmd": "",
                     "name": "Debug",
-                    "run_cmd": "use build.nu; build emulator"
+                    "run_cmd": "use build.nu; build emulator --logs"
                 }
             ]
         }

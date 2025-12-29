@@ -12,14 +12,14 @@ export def "rebuild clean" [] {
     rebuild
 }
 
-export def emulator [--emulator: list<string> = ["basalt"]] {
+export def emulator [--emulator: list<string> = ["basalt"], --logs] {
     let local_properties = open local.yaml
 
     rebuild
     ($local_properties.emulator | default $env.emulator? | default { $emulator }) | par-each {|it| pebble install --emulator $it }
 }
 
-export def phone [--ip: string] {
+export def phone [--ip: string, --logs] {
     let local_properties = open local.yaml
 
     rebuild

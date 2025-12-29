@@ -1,24 +1,35 @@
+def make-resource-data [num: int, is_bold: bool] {
+    [
+        {
+            type: bitmap,
+            name: $"IOSEVKA_ATLAS_(if $is_bold { "BOLD_" } else { "" })($num)",
+            file: font-atlas(if $is_bold { "-bold" } else { "" })/($num).png,
+            memoryFormat: 8Bit,
+            spaceOptimization: memory,
+            targetPlatforms: [
+                basalt,
+                emery,
+            ]
+        }
+        {
+            type: bitmap,
+            name: $"IOSEVKA_ATLAS_(if $is_bold { "BOLD_" } else { "" })($num)",
+            file: font-atlas(if $is_bold { "-bold" } else { "" })/($num).png,
+            memoryFormat: 1Bit,
+            spaceOptimization: memory,
+            targetPlatforms: [
+                aplite,
+                diorite,
+                flint,
+            ]
+        }
+    ]
+}
+
 export def main [] {
-    let media = ls resources/font-atlas/*~144w.png | each {|file|
-        let parsed_path = $file.name | path parse
-        {
-            type: bitmap,
-            name: $"IOSEVKA_ATLAS_($parsed_path.stem | parse --regex "(?<num>[0-9]+).*" | get num | first | into int)",
-            file: ($file.name | path split | slice 1.. | path join | str replace "~144w.png" ".png"),
-            memoryFormat: 8Bit,
-            spaceOptimization: memory,
-        }
-    }
-    let bold_media = ls resources/font-atlas-bold/*~144w.png | each {|file|
-        let parsed_path = $file.name | path parse
-        {
-            type: bitmap,
-            name: $"IOSEVKA_ATLAS_BOLD_($parsed_path.stem | parse --regex "(?<num>[0-9]+).*" | get num | first | into int)",
-            file: ($file.name | path split | slice 1.. | path join | str replace "~144w.png" ".png"),
-            memoryFormat: 8Bit,
-            spaceOptimization: memory,
-        }
-    }
+    let bold_media = 0..<26 | each --flatten {|num|
+        (make-resource-data $num false) ++ (make-resource-data $num true)
+    } | flatten | sort-by name --natural
     {
         name: lexiclock,
         author: fishy,
@@ -37,6 +48,9 @@ export def main [] {
             sdkVersion: "3",
             enableMultiJS: true,
             targetPlatforms: [
+#                 aplite,
+                diorite,
+#                 flint,
                 basalt,
                 emery,
             ],
@@ -49,7 +63,7 @@ export def main [] {
                 bright_bold,
             ],
             resources: {
-                media: ($media ++ $bold_media ++ [{
+                media: ($bold_media ++ [{
                     type: bitmap,
                     menuIcon: true,
                     name: IMAGE_MENU_ICON,

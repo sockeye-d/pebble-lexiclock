@@ -83,7 +83,8 @@ static char strings[STRINGS_HEIGHT][STRINGS_WIDTH] = {
 #define CHAR_Y_OFFSET 18
 #define CHAR_X_STEP 14
 #define CHAR_Y_STEP 28
-#elif PBL_PLATFORM_TYPE_CURRENT == PlatformTypeBasalt
+// #elif PBL_PLATFORM_TYPE_CURRENT == PlatformTypeBasalt
+#else
 
 #define STRING_STYLE_BASALT
 
@@ -116,8 +117,18 @@ static char strings[8][12] = {
 };
 #endif
 
+#if PBL_IF_COLOR_ELSE(true, false)
+
 #define BITMAP_WIDTH 10
 #define BITMAP_HEIGHT 20
+
+#else
+
+#define BITMAP_WIDTH 12
+#define BITMAP_HEIGHT 20
+
+#endif
+
 #define CHAR_X_OFFSET 7
 #define CHAR_Y_OFFSET 6
 #define CHAR_X_STEP 11
@@ -132,7 +143,7 @@ static char strings[8][12] = {
 #undef PlatformTypeEmery
 
 // 1 byte per pixel
-#define BITMAP_SIZE (BITMAP_WIDTH * BITMAP_HEIGHT)
+#define BITMAP_SIZE PBL_IF_COLOR_ELSE(BITMAP_WIDTH *BITMAP_HEIGHT, BITMAP_WIDTH *BITMAP_HEIGHT / 8)
 
 static void animation_callback(void *data) {
 	animation_y += 1;
@@ -147,8 +158,9 @@ static void animation_callback(void *data) {
 static void load_font_atlases(GBitmap *base_atlas[26], GBitmap *atlas[26]) {
 	for (int i = 0; i < 26; i++) {
 		const uint8_t *first_data = gbitmap_get_data(base_atlas[i]);
-		GBitmap *atlas_bitmap	  = gbitmap_create_blank(GSize(BITMAP_WIDTH, BITMAP_HEIGHT), GBitmapFormat8Bit);
-		memcpy(gbitmap_get_data(atlas_bitmap), first_data, BITMAP_SIZE);
+		GBitmap *atlas_bitmap	  = gbitmap_create_blank(GSize(BITMAP_WIDTH, BITMAP_HEIGHT), PBL_IF_COLOR_ELSE(GBitmapFormat8Bit, GBitmapFormat1Bit));
+		// printf("%d", gbitmap_get_bytes_per_row(atlas_bitmap));
+		memcpy(gbitmap_get_data(atlas_bitmap), first_data, gbitmap_get_bytes_per_row(atlas_bitmap) * BITMAP_HEIGHT);
 		if (atlas[i] != NULL) {
 			gbitmap_destroy(atlas[i]);
 		}
@@ -157,6 +169,7 @@ static void load_font_atlases(GBitmap *base_atlas[26], GBitmap *atlas[26]) {
 }
 
 static void modulate_font_atlas(GBitmap *source[26], GBitmap *dest[26], GColor foreground) {
+#if PBL_IF_COLOR_ELSE(true, false)
 	for (int i = 0; i < 26; i++) {
 		GColor8 *source_bitmap = (GColor8 *)gbitmap_get_data(source[i]);
 		GColor8 *dest_bitmap   = (GColor8 *)gbitmap_get_data(dest[i]);
@@ -170,6 +183,23 @@ static void modulate_font_atlas(GBitmap *source[26], GBitmap *dest[26], GColor f
 			}
 		}
 	}
+#else
+	bool use_dithering = foreground.r <= 1;
+	printf("%d", foreground.r);
+	for (int i = 0; i < 26; i++) {
+		uint8_t *source_bitmap = gbitmap_get_data(source[i]);
+		uint8_t *dest_bitmap   = gbitmap_get_data(dest[i]);
+		int iter_width		   = gbitmap_get_bytes_per_row(source[i]);
+		for (int y = 0; y < BITMAP_HEIGHT; y++) {
+			for (int x = 0; x < iter_width; x++) {
+				dest_bitmap[y * iter_width + x] = ~source_bitmap[y * iter_width + x];
+				if (use_dithering) {
+					dest_bitmap[y * iter_width + x] = ~(~dest_bitmap[y * iter_width + x] & (0b10101010 >> (y % 2)));
+				}
+			}
+		}
+	}
+#endif
 }
 
 uint32_t hash(uint32_t x) {
@@ -403,9 +433,21 @@ static void main_layer_draw(Layer *layer, GContext *ctx) {
 					really_lit = last_state[i][j];
 				}
 			}
-			graphics_draw_bitmap_in_rect(
-					ctx, (really_lit ? bright_font_atlas : faint_font_atlas)[ch - 'a'],
-					GRect(x, y, BITMAP_WIDTH, BITMAP_HEIGHT));
+#if PBL_IF_COLOR_ELSE(true, false)
+			graphics_draw_bitmap_in_rect(ctx, (really_lit ? bright_font_atlas : faint_font_atlas)[ch - 'a'], GRect(x, y, BITMAP_WIDTH, BITMAP_HEIGHT));
+#else
+			// static char fullstr[2]	 = " \0";
+			// static GFont faint_font	 = NULL;
+			// static GFont bright_font = NULL;
+			// if (faint_font == NULL) {
+			// faint_font	= fonts_get_system_font(FONT_KEY_GOTHIC_24);
+			// bright_font = fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD);
+			// }
+			// fullstr[0] = ch;
+			// graphics_context_set_text_color(ctx, really_lit ? GColorWhite : GColorLightGray);
+			// graphics_draw_text(ctx, fullstr, really_lit ? bright_font : faint_font, GRect(x, y - 5, 100, BITMAP_HEIGHT), GTextOverflowModeWordWrap, GTextAlignmentLeft, NULL);
+			graphics_draw_bitmap_in_rect(ctx, (really_lit ? bright_font_atlas : faint_font_atlas)[ch - 'a'], GRect(x, y, BITMAP_WIDTH, BITMAP_HEIGHT));
+#endif
 			x += CHAR_X_STEP;
 		}
 		y += CHAR_Y_STEP;
@@ -437,12 +479,17 @@ static void on_window_unload(Window *window) {
 }
 
 static void settings_changed() {
+	printf("Loading font atlases 1");
 	load_font_atlases(settings.faint_bold ? base_bold_font_atlas : base_faint_font_atlas, faint_font_atlas);
+	printf("Loading font atlases 2");
 	load_font_atlases(settings.bright_bold ? base_bold_font_atlas : base_faint_font_atlas, bright_font_atlas);
 
+	printf("Loading font atlases 3");
 	modulate_font_atlas(faint_font_atlas, faint_font_atlas, settings.faint_color);
+	printf("Loading font atlases 4");
 	modulate_font_atlas(bright_font_atlas, bright_font_atlas, settings.bright_color);
 
+	printf("stuff 5");
 	window_set_background_color(window, settings.bg_color);
 
 	if (main_layer != NULL) {
@@ -451,14 +498,17 @@ static void settings_changed() {
 }
 
 static void init() {
+	printf("Copying");
 	for (int id = RESOURCE_ID_IOSEVKA_ATLAS_0; id < RESOURCE_ID_IOSEVKA_ATLAS_25 + 1; id++) {
 		base_faint_font_atlas[id - RESOURCE_ID_IOSEVKA_ATLAS_0] = gbitmap_create_with_resource(id);
 	}
 
+	printf("Copying2");
 	for (int id = RESOURCE_ID_IOSEVKA_ATLAS_BOLD_0; id < RESOURCE_ID_IOSEVKA_ATLAS_BOLD_25 + 1; id++) {
 		base_bold_font_atlas[id - RESOURCE_ID_IOSEVKA_ATLAS_BOLD_0] = gbitmap_create_with_resource(id);
 	}
 
+	printf("Done copying");
 	app_message_open(dict_calc_buffer_size(5), 0);
 	app_message_register_inbox_received(inbox_received_handler);
 
