@@ -1,20 +1,21 @@
-def make-resource-data [num: int, is_bold: bool] {
+export def main [] {
+    let bold_media = 0..<26 | each --flatten {|num|
     [
         {
             type: bitmap,
-            name: $"IOSEVKA_ATLAS_(if $is_bold { "BOLD_" } else { "" })($num)",
-            file: font-atlas(if $is_bold { "-bold" } else { "" })/($num).png,
+            name: $"IOSEVKA_ATLAS_($num)",
+            file: font-atlas/($num).png,
             memoryFormat: 8Bit,
             spaceOptimization: memory,
             targetPlatforms: [
                 basalt,
                 emery,
             ]
-        }
+        },
         {
             type: bitmap,
-            name: $"IOSEVKA_ATLAS_(if $is_bold { "BOLD_" } else { "" })($num)",
-            file: font-atlas(if $is_bold { "-bold" } else { "" })/($num).png,
+            name: $"IOSEVKA_ATLAS_($num)",
+            file: font-atlas/($num).png,
             memoryFormat: 1Bit,
             spaceOptimization: memory,
             targetPlatforms: [
@@ -22,13 +23,31 @@ def make-resource-data [num: int, is_bold: bool] {
                 diorite,
                 flint,
             ]
-        }
+        },
+        {
+            type: bitmap,
+            name: $"IOSEVKA_ATLAS_BOLD_($num)",
+            file: font-atlas-bold/($num).png,
+            memoryFormat: 8Bit,
+            spaceOptimization: memory,
+            targetPlatforms: [
+                basalt,
+                emery,
+            ]
+        },
+#         {
+#             type: bitmap,
+#             name: $"IOSEVKA_ATLAS_BOLD_($num)",
+#             file: font-atlas-bold/($num).png,
+#             memoryFormat: 1Bit,
+#             spaceOptimization: memory,
+#             targetPlatforms: [
+#                 aplite,
+#                 diorite,
+#                 flint,
+#             ]
+#         },
     ]
-}
-
-export def main [] {
-    let bold_media = 0..<26 | each --flatten {|num|
-        (make-resource-data $num false) ++ (make-resource-data $num true)
     } | flatten | sort-by name --natural
     {
         name: lexiclock,
@@ -48,7 +67,7 @@ export def main [] {
             sdkVersion: "3",
             enableMultiJS: true,
             targetPlatforms: [
-#                 aplite,
+                aplite,
                 diorite,
 #                 flint,
                 basalt,
@@ -61,14 +80,29 @@ export def main [] {
                 bright_color,
                 faint_bold,
                 bright_bold,
+                light_on_dark,
             ],
             resources: {
-                media: ($bold_media ++ [{
-                    type: bitmap,
-                    menuIcon: true,
-                    name: IMAGE_MENU_ICON,
-                    file: launcher.png
-                }]),
+                media: ($bold_media ++ [
+                    {
+                        type: bitmap,
+                        menuIcon: true,
+                        name: IMAGE_MENU_ICON,
+                        file: launcher.png
+                    },
+                    {
+                        type: bitmap,
+                        name: DITHER_PATTERN,
+                        file: dither.png,
+                        memoryFormat: 1Bit,
+                        spaceOptimization: memory,
+                        targetPlatforms: [
+                            aplite,
+                            diorite,
+                            flint,
+                        ]
+                    },
+                ]),
             },
         },
     }

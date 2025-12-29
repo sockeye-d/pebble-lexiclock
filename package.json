@@ -19,6 +19,7 @@
     "sdkVersion": "3",
     "enableMultiJS": true,
     "targetPlatforms": [
+      "aplite",
       "diorite",
       "basalt",
       "emery"
@@ -31,7 +32,8 @@
       "faint_color",
       "bright_color",
       "faint_bold",
-      "bright_bold"
+      "bright_bold",
+      "light_on_dark"
     ],
     "resources": {
       "media": [
@@ -1093,30 +1095,6 @@
         },
         {
           "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_0",
-          "file": "font-atlas-bold/0.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_0",
-          "file": "font-atlas-bold/0.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_0",
-          "file": "font-atlas-bold/0.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
-        },
-        {
-          "type": "bitmap",
           "name": "IOSEVKA_ATLAS_BOLD_1",
           "file": "font-atlas-bold/1.png",
           "memoryFormat": "8Bit",
@@ -1130,30 +1108,6 @@
           "memoryFormat": "8Bit",
           "spaceOptimization": "memory",
           "targetPlatforms": "emery"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_1",
-          "file": "font-atlas-bold/1.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_1",
-          "file": "font-atlas-bold/1.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_1",
-          "file": "font-atlas-bold/1.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
         },
         {
           "type": "bitmap",
@@ -1173,30 +1127,6 @@
         },
         {
           "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_2",
-          "file": "font-atlas-bold/2.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_2",
-          "file": "font-atlas-bold/2.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_2",
-          "file": "font-atlas-bold/2.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
-        },
-        {
-          "type": "bitmap",
           "name": "IOSEVKA_ATLAS_BOLD_3",
           "file": "font-atlas-bold/3.png",
           "memoryFormat": "8Bit",
@@ -1210,30 +1140,6 @@
           "memoryFormat": "8Bit",
           "spaceOptimization": "memory",
           "targetPlatforms": "emery"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_3",
-          "file": "font-atlas-bold/3.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_3",
-          "file": "font-atlas-bold/3.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_3",
-          "file": "font-atlas-bold/3.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
         },
         {
           "type": "bitmap",
@@ -1253,30 +1159,6 @@
         },
         {
           "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_4",
-          "file": "font-atlas-bold/4.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_4",
-          "file": "font-atlas-bold/4.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_4",
-          "file": "font-atlas-bold/4.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
-        },
-        {
-          "type": "bitmap",
           "name": "IOSEVKA_ATLAS_BOLD_5",
           "file": "font-atlas-bold/5.png",
           "memoryFormat": "8Bit",
@@ -1290,30 +1172,6 @@
           "memoryFormat": "8Bit",
           "spaceOptimization": "memory",
           "targetPlatforms": "emery"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_5",
-          "file": "font-atlas-bold/5.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_5",
-          "file": "font-atlas-bold/5.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_5",
-          "file": "font-atlas-bold/5.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
         },
         {
           "type": "bitmap",
@@ -1333,30 +1191,6 @@
         },
         {
           "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_6",
-          "file": "font-atlas-bold/6.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_6",
-          "file": "font-atlas-bold/6.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_6",
-          "file": "font-atlas-bold/6.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
-        },
-        {
-          "type": "bitmap",
           "name": "IOSEVKA_ATLAS_BOLD_7",
           "file": "font-atlas-bold/7.png",
           "memoryFormat": "8Bit",
@@ -1370,30 +1204,6 @@
           "memoryFormat": "8Bit",
           "spaceOptimization": "memory",
           "targetPlatforms": "emery"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_7",
-          "file": "font-atlas-bold/7.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_7",
-          "file": "font-atlas-bold/7.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_7",
-          "file": "font-atlas-bold/7.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
         },
         {
           "type": "bitmap",
@@ -1413,30 +1223,6 @@
         },
         {
           "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_8",
-          "file": "font-atlas-bold/8.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_8",
-          "file": "font-atlas-bold/8.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_8",
-          "file": "font-atlas-bold/8.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
-        },
-        {
-          "type": "bitmap",
           "name": "IOSEVKA_ATLAS_BOLD_9",
           "file": "font-atlas-bold/9.png",
           "memoryFormat": "8Bit",
@@ -1450,30 +1236,6 @@
           "memoryFormat": "8Bit",
           "spaceOptimization": "memory",
           "targetPlatforms": "emery"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_9",
-          "file": "font-atlas-bold/9.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_9",
-          "file": "font-atlas-bold/9.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_9",
-          "file": "font-atlas-bold/9.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
         },
         {
           "type": "bitmap",
@@ -1493,30 +1255,6 @@
         },
         {
           "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_10",
-          "file": "font-atlas-bold/10.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_10",
-          "file": "font-atlas-bold/10.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_10",
-          "file": "font-atlas-bold/10.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
-        },
-        {
-          "type": "bitmap",
           "name": "IOSEVKA_ATLAS_BOLD_11",
           "file": "font-atlas-bold/11.png",
           "memoryFormat": "8Bit",
@@ -1530,30 +1268,6 @@
           "memoryFormat": "8Bit",
           "spaceOptimization": "memory",
           "targetPlatforms": "emery"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_11",
-          "file": "font-atlas-bold/11.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_11",
-          "file": "font-atlas-bold/11.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_11",
-          "file": "font-atlas-bold/11.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
         },
         {
           "type": "bitmap",
@@ -1573,30 +1287,6 @@
         },
         {
           "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_12",
-          "file": "font-atlas-bold/12.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_12",
-          "file": "font-atlas-bold/12.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_12",
-          "file": "font-atlas-bold/12.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
-        },
-        {
-          "type": "bitmap",
           "name": "IOSEVKA_ATLAS_BOLD_13",
           "file": "font-atlas-bold/13.png",
           "memoryFormat": "8Bit",
@@ -1610,30 +1300,6 @@
           "memoryFormat": "8Bit",
           "spaceOptimization": "memory",
           "targetPlatforms": "emery"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_13",
-          "file": "font-atlas-bold/13.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_13",
-          "file": "font-atlas-bold/13.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_13",
-          "file": "font-atlas-bold/13.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
         },
         {
           "type": "bitmap",
@@ -1653,30 +1319,6 @@
         },
         {
           "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_14",
-          "file": "font-atlas-bold/14.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_14",
-          "file": "font-atlas-bold/14.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_14",
-          "file": "font-atlas-bold/14.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
-        },
-        {
-          "type": "bitmap",
           "name": "IOSEVKA_ATLAS_BOLD_15",
           "file": "font-atlas-bold/15.png",
           "memoryFormat": "8Bit",
@@ -1690,30 +1332,6 @@
           "memoryFormat": "8Bit",
           "spaceOptimization": "memory",
           "targetPlatforms": "emery"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_15",
-          "file": "font-atlas-bold/15.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_15",
-          "file": "font-atlas-bold/15.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_15",
-          "file": "font-atlas-bold/15.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
         },
         {
           "type": "bitmap",
@@ -1733,30 +1351,6 @@
         },
         {
           "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_16",
-          "file": "font-atlas-bold/16.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_16",
-          "file": "font-atlas-bold/16.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_16",
-          "file": "font-atlas-bold/16.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
-        },
-        {
-          "type": "bitmap",
           "name": "IOSEVKA_ATLAS_BOLD_17",
           "file": "font-atlas-bold/17.png",
           "memoryFormat": "8Bit",
@@ -1770,30 +1364,6 @@
           "memoryFormat": "8Bit",
           "spaceOptimization": "memory",
           "targetPlatforms": "emery"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_17",
-          "file": "font-atlas-bold/17.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_17",
-          "file": "font-atlas-bold/17.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_17",
-          "file": "font-atlas-bold/17.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
         },
         {
           "type": "bitmap",
@@ -1813,30 +1383,6 @@
         },
         {
           "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_18",
-          "file": "font-atlas-bold/18.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_18",
-          "file": "font-atlas-bold/18.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_18",
-          "file": "font-atlas-bold/18.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
-        },
-        {
-          "type": "bitmap",
           "name": "IOSEVKA_ATLAS_BOLD_19",
           "file": "font-atlas-bold/19.png",
           "memoryFormat": "8Bit",
@@ -1850,30 +1396,6 @@
           "memoryFormat": "8Bit",
           "spaceOptimization": "memory",
           "targetPlatforms": "emery"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_19",
-          "file": "font-atlas-bold/19.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_19",
-          "file": "font-atlas-bold/19.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_19",
-          "file": "font-atlas-bold/19.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
         },
         {
           "type": "bitmap",
@@ -1893,30 +1415,6 @@
         },
         {
           "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_20",
-          "file": "font-atlas-bold/20.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_20",
-          "file": "font-atlas-bold/20.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_20",
-          "file": "font-atlas-bold/20.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
-        },
-        {
-          "type": "bitmap",
           "name": "IOSEVKA_ATLAS_BOLD_21",
           "file": "font-atlas-bold/21.png",
           "memoryFormat": "8Bit",
@@ -1930,30 +1428,6 @@
           "memoryFormat": "8Bit",
           "spaceOptimization": "memory",
           "targetPlatforms": "emery"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_21",
-          "file": "font-atlas-bold/21.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_21",
-          "file": "font-atlas-bold/21.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_21",
-          "file": "font-atlas-bold/21.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
         },
         {
           "type": "bitmap",
@@ -1973,30 +1447,6 @@
         },
         {
           "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_22",
-          "file": "font-atlas-bold/22.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_22",
-          "file": "font-atlas-bold/22.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_22",
-          "file": "font-atlas-bold/22.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
-        },
-        {
-          "type": "bitmap",
           "name": "IOSEVKA_ATLAS_BOLD_23",
           "file": "font-atlas-bold/23.png",
           "memoryFormat": "8Bit",
@@ -2010,30 +1460,6 @@
           "memoryFormat": "8Bit",
           "spaceOptimization": "memory",
           "targetPlatforms": "emery"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_23",
-          "file": "font-atlas-bold/23.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_23",
-          "file": "font-atlas-bold/23.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_23",
-          "file": "font-atlas-bold/23.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
         },
         {
           "type": "bitmap",
@@ -2053,30 +1479,6 @@
         },
         {
           "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_24",
-          "file": "font-atlas-bold/24.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_24",
-          "file": "font-atlas-bold/24.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_24",
-          "file": "font-atlas-bold/24.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
-        },
-        {
-          "type": "bitmap",
           "name": "IOSEVKA_ATLAS_BOLD_25",
           "file": "font-atlas-bold/25.png",
           "memoryFormat": "8Bit",
@@ -2090,36 +1492,24 @@
           "memoryFormat": "8Bit",
           "spaceOptimization": "memory",
           "targetPlatforms": "emery"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_25",
-          "file": "font-atlas-bold/25.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "aplite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_25",
-          "file": "font-atlas-bold/25.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "diorite"
-        },
-        {
-          "type": "bitmap",
-          "name": "IOSEVKA_ATLAS_BOLD_25",
-          "file": "font-atlas-bold/25.png",
-          "memoryFormat": "1Bit",
-          "spaceOptimization": "memory",
-          "targetPlatforms": "flint"
         },
         {
           "type": "bitmap",
           "menuIcon": true,
           "name": "IMAGE_MENU_ICON",
           "file": "launcher.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "DITHER_PATTERN",
+          "file": "dither.png",
+          "memoryFormat": "1Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "aplite",
+            "diorite",
+            "flint"
+          ]
         }
       ]
     }

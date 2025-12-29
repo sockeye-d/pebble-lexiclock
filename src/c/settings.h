@@ -2,12 +2,18 @@
 
 #define SETTINGS_KEY 1
 
+#define IS_COLOR PBL_IF_COLOR_ELSE(true, false)
+
 typedef struct {
 	GColor bg_color;
 	GColor faint_color;
 	GColor bright_color;
 	bool faint_bold;
 	bool bright_bold;
+
+#if !IS_COLOR
+	bool light_on_dark;
+#endif
 } ClaySettings;
 
 static ClaySettings settings;
@@ -19,6 +25,10 @@ static void default_settings() {
 
 	settings.faint_bold	 = false;
 	settings.bright_bold = true;
+
+#if !IS_COLOR
+	settings.light_on_dark = false;
+#endif
 }
 
 static void load_settings() {
@@ -60,6 +70,10 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 	LOAD_COLOR(bright_color);
 	LOAD_BOOL(faint_bold);
 	LOAD_BOOL(bright_bold);
+
+#if !IS_COLOR
+	LOAD_BOOL(light_on_dark);
+#endif
 
 	save_settings();
 	settings_changed();

@@ -13,18 +13,21 @@ new Clay(
             messageKey: "bg_color",
             defaultValue: "0x000000",
             label: "Background color",
+            capabilities: ["color"],
         },
         {
             type: "color",
             messageKey: "faint_color",
             defaultValue: "0x555555",
             label: "Faint text color",
+            capabilities: ["color"],
         },
         {
             type: "color",
             messageKey: "bright_color",
             defaultValue: "0xAAFF55",
             label: "Bright text color",
+            capabilities: ["color"],
         },
         {
             type: "toggle",
@@ -37,6 +40,13 @@ new Clay(
             messageKey: "bright_bold",
             defaultValue: 1,
             label: "Bold bright text",
+        },
+        {
+            type: "toggle",
+            messageKey: "light_on_dark",
+            defaultValue: 0,
+            label: "Use a light on dark theme",
+            capabilities: ["bw"],
         },
         {
             type: "submit",

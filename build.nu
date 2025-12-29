@@ -16,7 +16,10 @@ export def emulator [--emulator: list<string> = ["basalt"], --logs] {
     let local_properties = open local.yaml
 
     rebuild
-    ($local_properties.emulator | default $env.emulator? | default { $emulator }) | par-each {|it| pebble install --emulator $it }
+    ($local_properties.emulator | default $env.emulator? | default { $emulator }) | par-each {|it|
+        print $"Emulating on ($it)"
+        pebble install --emulator $it
+    }
 }
 
 export def phone [--ip: string, --logs] {

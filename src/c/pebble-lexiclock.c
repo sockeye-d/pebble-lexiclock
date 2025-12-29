@@ -1,6 +1,6 @@
 #include "settings.h"
 
-// #define PREVIEW_TIME
+#define PREVIEW_TIME
 
 static Window *window	 = NULL;
 static Layer *main_layer = NULL;
@@ -50,6 +50,10 @@ static GBitmap *base_faint_font_atlas[26];
 static GBitmap *base_bold_font_atlas[26];
 static GBitmap *faint_font_atlas[26];
 static GBitmap *bright_font_atlas[26];
+
+#if !IS_COLOR
+static GBitmap *dither = NULL;
+#endif
 
 static int32_t animation_ticks = INT32_MIN;
 static int animation_y		   = ANIMATION_ENDED;
@@ -125,7 +129,7 @@ static char strings[8][12] = {
 #else
 
 #define BITMAP_WIDTH 12
-#define BITMAP_HEIGHT 20
+#define BITMAP_HEIGHT 19
 
 #endif
 
@@ -159,7 +163,6 @@ static void load_font_atlases(GBitmap *base_atlas[26], GBitmap *atlas[26]) {
 	for (int i = 0; i < 26; i++) {
 		const uint8_t *first_data = gbitmap_get_data(base_atlas[i]);
 		GBitmap *atlas_bitmap	  = gbitmap_create_blank(GSize(BITMAP_WIDTH, BITMAP_HEIGHT), PBL_IF_COLOR_ELSE(GBitmapFormat8Bit, GBitmapFormat1Bit));
-		// printf("%d", gbitmap_get_bytes_per_row(atlas_bitmap));
 		memcpy(gbitmap_get_data(atlas_bitmap), first_data, gbitmap_get_bytes_per_row(atlas_bitmap) * BITMAP_HEIGHT);
 		if (atlas[i] != NULL) {
 			gbitmap_destroy(atlas[i]);
@@ -184,7 +187,7 @@ static void modulate_font_atlas(GBitmap *source[26], GBitmap *dest[26], GColor f
 		}
 	}
 #else
-	bool use_dithering = foreground.r <= 1;
+	// bool use_dithering = foreground.r <= 1;
 	printf("%d", foreground.r);
 	for (int i = 0; i < 26; i++) {
 		uint8_t *source_bitmap = gbitmap_get_data(source[i]);
@@ -192,10 +195,7 @@ static void modulate_font_atlas(GBitmap *source[26], GBitmap *dest[26], GColor f
 		int iter_width		   = gbitmap_get_bytes_per_row(source[i]);
 		for (int y = 0; y < BITMAP_HEIGHT; y++) {
 			for (int x = 0; x < iter_width; x++) {
-				dest_bitmap[y * iter_width + x] = ~source_bitmap[y * iter_width + x];
-				if (use_dithering) {
-					dest_bitmap[y * iter_width + x] = ~(~dest_bitmap[y * iter_width + x] & (0b10101010 >> (y % 2)));
-				}
+				dest_bitmap[y * iter_width + x] = source_bitmap[y * iter_width + x];
 			}
 		}
 	}
@@ -235,22 +235,20 @@ static int get_minute_offset(int minute) {
 static void parse_word_time(int hour_24, int minute) {
 	last_word_time = word_time;
 #ifdef PREVIEW_TIME
-	word_time.hour			   = 11;
-	word_time.minute_offset	   = QUARTER;
-	word_time.offset_direction = OFFSET_DIRECTION_PAST;
-#else
+	hour_24 = 11;
+	minute	= 15;
+#endif
 	word_time.hour = POSMOD(hour_24 - 1, 12) + 1;
 	word_time.offset_direction =
 			minute > 34 ? OFFSET_DIRECTION_TO : OFFSET_DIRECTION_PAST;
 	word_time.minute_offset = get_minute_offset(
 			word_time.offset_direction == OFFSET_DIRECTION_TO ? 64 - minute : minute);
 	if (word_time.offset_direction == OFFSET_DIRECTION_TO) {
-		word_time.hour = (word_time.hour + 1) % 12;
+		word_time.hour = word_time.hour % 12 + 1;
 	}
 	if (word_time.minute_offset == ZERO) {
 		word_time.offset_direction = OFFSET_DIRECTION_NONE;
 	}
-#endif
 }
 
 static bool word_time_changed() {
@@ -399,7 +397,10 @@ static bool get_char_state(size_t i, size_t j, bool *r_set) {
 static void main_layer_draw(Layer *layer, GContext *ctx) {
 	int y	 = CHAR_Y_OFFSET;
 	bool lit = true;
+#if IS_COLOR
 	graphics_context_set_compositing_mode(ctx, GCompOpSet);
+#else
+#endif
 	for (size_t i = 0; i < STRINGS_HEIGHT; i++) {
 		int x = CHAR_X_OFFSET;
 		for (size_t j = 0; j < STRINGS_WIDTH; j++) {
@@ -433,20 +434,30 @@ static void main_layer_draw(Layer *layer, GContext *ctx) {
 					really_lit = last_state[i][j];
 				}
 			}
-#if PBL_IF_COLOR_ELSE(true, false)
+#if IS_COLOR
 			graphics_draw_bitmap_in_rect(ctx, (really_lit ? bright_font_atlas : faint_font_atlas)[ch - 'a'], GRect(x, y, BITMAP_WIDTH, BITMAP_HEIGHT));
 #else
-			// static char fullstr[2]	 = " \0";
-			// static GFont faint_font	 = NULL;
-			// static GFont bright_font = NULL;
-			// if (faint_font == NULL) {
-			// faint_font	= fonts_get_system_font(FONT_KEY_GOTHIC_24);
-			// bright_font = fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD);
-			// }
-			// fullstr[0] = ch;
-			// graphics_context_set_text_color(ctx, really_lit ? GColorWhite : GColorLightGray);
-			// graphics_draw_text(ctx, fullstr, really_lit ? bright_font : faint_font, GRect(x, y - 5, 100, BITMAP_HEIGHT), GTextOverflowModeWordWrap, GTextAlignmentLeft, NULL);
-			graphics_draw_bitmap_in_rect(ctx, (really_lit ? bright_font_atlas : faint_font_atlas)[ch - 'a'], GRect(x, y, BITMAP_WIDTH, BITMAP_HEIGHT));
+			if (settings.light_on_dark) {
+				graphics_context_set_compositing_mode(ctx, GCompOpAnd);
+			} else {
+				graphics_context_set_compositing_mode(ctx, GCompOpSet);
+			}
+			graphics_draw_bitmap_in_rect(ctx, base_faint_font_atlas[ch - 'a'], GRect(x, y, BITMAP_WIDTH, BITMAP_HEIGHT));
+			if (really_lit) {
+				if (settings.bright_bold) {
+					graphics_draw_bitmap_in_rect(ctx, base_faint_font_atlas[ch - 'a'], GRect(x + 1, y, BITMAP_WIDTH, BITMAP_HEIGHT));
+				}
+			} else {
+				if (settings.faint_bold) {
+					graphics_draw_bitmap_in_rect(ctx, base_faint_font_atlas[ch - 'a'], GRect(x + 1, y, BITMAP_WIDTH, BITMAP_HEIGHT));
+				}
+				if (settings.light_on_dark) {
+					graphics_context_set_compositing_mode(ctx, GCompOpSet);
+				} else {
+					graphics_context_set_compositing_mode(ctx, GCompOpAnd);
+				}
+				graphics_draw_bitmap_in_rect(ctx, dither, GRect(x, y, BITMAP_WIDTH, BITMAP_HEIGHT));
+			}
 #endif
 			x += CHAR_X_STEP;
 		}
@@ -479,18 +490,18 @@ static void on_window_unload(Window *window) {
 }
 
 static void settings_changed() {
-	printf("Loading font atlases 1");
+#if IS_COLOR
 	load_font_atlases(settings.faint_bold ? base_bold_font_atlas : base_faint_font_atlas, faint_font_atlas);
-	printf("Loading font atlases 2");
 	load_font_atlases(settings.bright_bold ? base_bold_font_atlas : base_faint_font_atlas, bright_font_atlas);
-
-	printf("Loading font atlases 3");
 	modulate_font_atlas(faint_font_atlas, faint_font_atlas, settings.faint_color);
-	printf("Loading font atlases 4");
 	modulate_font_atlas(bright_font_atlas, bright_font_atlas, settings.bright_color);
+#endif
 
-	printf("stuff 5");
+#if IS_COLOR
 	window_set_background_color(window, settings.bg_color);
+#else
+	window_set_background_color(window, settings.light_on_dark ? GColorWhite : GColorBlack);
+#endif
 
 	if (main_layer != NULL) {
 		layer_mark_dirty(main_layer);
@@ -503,17 +514,21 @@ static void init() {
 		base_faint_font_atlas[id - RESOURCE_ID_IOSEVKA_ATLAS_0] = gbitmap_create_with_resource(id);
 	}
 
+#if IS_COLOR
 	printf("Copying2");
 	for (int id = RESOURCE_ID_IOSEVKA_ATLAS_BOLD_0; id < RESOURCE_ID_IOSEVKA_ATLAS_BOLD_25 + 1; id++) {
 		base_bold_font_atlas[id - RESOURCE_ID_IOSEVKA_ATLAS_BOLD_0] = gbitmap_create_with_resource(id);
 	}
+#endif
 
-	printf("Done copying");
-	app_message_open(dict_calc_buffer_size(5), 0);
+#if !IS_COLOR
+	dither = gbitmap_create_with_resource(RESOURCE_ID_DITHER_PATTERN);
+#endif
+
+	app_message_open(dict_calc_buffer_size(6), 0);
 	app_message_register_inbox_received(inbox_received_handler);
 
 	window = window_create();
-	window_set_background_color(window, settings.bg_color);
 
 	window_set_window_handlers(window, (WindowHandlers){
 											   .load   = on_window_load,
@@ -527,9 +542,11 @@ static void deinit() {
 	app_message_deregister_callbacks();
 	for (size_t i = 0; i < 26; i++) {
 		gbitmap_destroy(base_faint_font_atlas[i]);
+#if IS_COLOR
 		gbitmap_destroy(base_bold_font_atlas[i]);
 		gbitmap_destroy(faint_font_atlas[i]);
 		gbitmap_destroy(bright_font_atlas[i]);
+#endif
 	}
 }
 
