@@ -88,7 +88,7 @@ static char strings[STRINGS_HEIGHT][STRINGS_WIDTH] = {
 #define CHAR_Y_OFFSET 18
 #define CHAR_X_STEP 14
 #define CHAR_Y_STEP 28
-// #elif PBL_PLATFORM_TYPE_CURRENT == PlatformTypeBasalt
+
 #else
 
 #define STRING_STYLE_BASALT
@@ -179,11 +179,9 @@ static void modulate_font_atlas(GBitmap *source[26], GBitmap *dest[26], GColor f
 		GColor8 *dest_bitmap   = (GColor8 *)gbitmap_get_data(dest[i]);
 		for (int y = 0; y < BITMAP_HEIGHT; y++) {
 			for (int x = 0; x < BITMAP_WIDTH; x++) {
-				GColor8 pixel	   = (GColor8)(source_bitmap[y * BITMAP_WIDTH + x]);
-				uint8_t brightness = pixel.r;
-				dest_bitmap[y * BITMAP_WIDTH + x] =
-						GColorFromRGBA(foreground.r << 6, foreground.g << 6,
-								foreground.b << 6, brightness << 6);
+				GColor8 pixel					  = (GColor8)(source_bitmap[y * BITMAP_WIDTH + x]);
+				uint8_t brightness				  = pixel.r;
+				dest_bitmap[y * BITMAP_WIDTH + x] = GColorFromRGBA(foreground.r << 6, foreground.g << 6, foreground.b << 6, brightness << 6);
 			}
 		}
 	}
