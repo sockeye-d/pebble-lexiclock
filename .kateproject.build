@@ -11,6 +11,11 @@
                     "build_cmd": "",
                     "name": "Debug",
                     "run_cmd": "use build.nu; build emulator --logs"
+                },
+                {
+                    "build_cmd": "",
+                    "name": "Build Command",
+                    "run_cmd": "use build.nu; build rebuild clean"
                 }
             ]
         }

@@ -267,11 +267,14 @@ static bool get_char_state(size_t i, size_t j, bool *r_set) {
 			switch (j) {
 				X(0, IS_MINUTE(TEN))
 				X(5, IS_MINUTE(FIVE) || IS_MINUTE(TWENTY_FIVE))
-				X(11, IS_MINUTE(QUARTER))
+				X(11, IS_MINUTE(QUARTER) && !settings.british_mode)
 			}
 			break;
 		case 2:
-			switch (j) { X(7, IS_MINUTE(HALF)); }
+			switch (j) {
+				X(0, IS_MINUTE(QUARTER))
+				X(7, IS_MINUTE(HALF));
+			}
 			break;
 		case 3:
 			switch (j) {
@@ -327,7 +330,7 @@ static bool get_char_state(size_t i, size_t j, bool *r_set) {
 			switch (j) {
 				X(1, IS_MINUTE(TEN))
 				X(5, IS_MINUTE(HALF))
-				X(6, IS_MINUTE(HALF) || IS_MINUTE(QUARTER))
+				X(6, IS_MINUTE(HALF) || (IS_MINUTE(QUARTER) && !settings.british_mode))
 				X(7, IS_MINUTE(HALF))
 				X(8, IS_MINUTE(HALF) || IS_MINUTE(FIVE) || IS_MINUTE(TWENTY_FIVE))
 				X(9, IS_MINUTE(FIVE) || IS_MINUTE(TWENTY_FIVE))

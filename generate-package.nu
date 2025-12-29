@@ -39,7 +39,7 @@ export def main [] {
     {
         name: lexiclock,
         author: fishy,
-        version: "1.3.0",
+        version: "1.4.0",
         keywords: [ "pebble-watchface" ],
         private: true,
         dependencies: {
@@ -68,6 +68,7 @@ export def main [] {
                 bright_bold,
                 light_on_dark,
                 use_fainter_dithering,
+                british_mode,
             ],
             resources: {
                 media: ($bold_media ++ [

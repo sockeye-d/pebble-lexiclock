@@ -10,6 +10,7 @@ typedef struct {
 	GColor bright_color;
 	bool faint_bold;
 	bool bright_bold;
+	bool british_mode;
 
 #if !IS_COLOR
 	bool light_on_dark;
@@ -26,6 +27,8 @@ static void default_settings() {
 
 	settings.faint_bold	 = false;
 	settings.bright_bold = true;
+
+	settings.british_mode = false;
 
 #if !IS_COLOR
 	settings.light_on_dark		   = false;
@@ -72,6 +75,8 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 	LOAD_COLOR(bright_color);
 	LOAD_BOOL(faint_bold);
 	LOAD_BOOL(bright_bold);
+
+	LOAD_BOOL(british_mode);
 
 #if !IS_COLOR
 	LOAD_BOOL(light_on_dark);

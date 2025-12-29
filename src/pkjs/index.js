@@ -56,6 +56,12 @@ new Clay(
             capabilities: ["BW"],
         },
         {
+            type: "toggle",
+            messageKey: "british_mode",
+            defaultValue: 0,
+            label: "Use a British English locale (by Connope's request)",
+        },
+        {
             type: "submit",
             defaultValue: "Save settings and exit",
         },
