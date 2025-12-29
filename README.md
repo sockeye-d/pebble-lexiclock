@@ -1,7 +1,9 @@
 # Lexiclock
 
-A word clock for Pebble Time (basalt) and Pebble Time 2 (emery)
+A word clock for all non-round Pebble smartwatches
 
-|Emery |![Emery screenshot](images/emery.png)  |
-|------|---------------------------------------|
-|Basalt|![Basalt screenshot](images/basalt.png)|
+|Platform |Screenshot                                  |
+|---------|--------------------------------------------|
+|Emery    |![Emery screenshot](images/emery.png)       |
+|Basalt   |![Basalt screenshot](images/basalt.png)     |
+|B/W      |![Black and white screenshot](images/bw.png)|

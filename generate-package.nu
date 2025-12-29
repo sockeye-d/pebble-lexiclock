@@ -52,7 +52,7 @@ export def main [] {
     {
         name: lexiclock,
         author: fishy,
-        version: "1.0.0",
+        version: "1.2.0",
         keywords: [ "pebble-watchface" ],
         private: true,
         dependencies: {
@@ -81,6 +81,7 @@ export def main [] {
                 faint_bold,
                 bright_bold,
                 light_on_dark,
+                use_fainter_dithering,
             ],
             resources: {
                 media: ($bold_media ++ [
@@ -92,8 +93,20 @@ export def main [] {
                     },
                     {
                         type: bitmap,
-                        name: DITHER_PATTERN,
-                        file: dither.png,
+                        name: DITHER_PATTERN_1,
+                        file: dither1.png,
+                        memoryFormat: 1Bit,
+                        spaceOptimization: memory,
+                        targetPlatforms: [
+                            aplite,
+                            diorite,
+                            flint,
+                        ]
+                    },
+                    {
+                        type: bitmap,
+                        name: DITHER_PATTERN_2,
+                        file: dither2.png,
                         memoryFormat: 1Bit,
                         spaceOptimization: memory,
                         targetPlatforms: [

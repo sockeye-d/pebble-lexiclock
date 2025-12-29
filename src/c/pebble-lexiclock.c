@@ -1,6 +1,6 @@
 #include "settings.h"
 
-#define PREVIEW_TIME
+// #define PREVIEW_TIME
 
 static Window *window	 = NULL;
 static Layer *main_layer = NULL;
@@ -52,7 +52,8 @@ static GBitmap *faint_font_atlas[26];
 static GBitmap *bright_font_atlas[26];
 
 #if !IS_COLOR
-static GBitmap *dither = NULL;
+static GBitmap *dither1 = NULL;
+static GBitmap *dither2 = NULL;
 #endif
 
 static int32_t animation_ticks = INT32_MIN;
@@ -171,8 +172,8 @@ static void load_font_atlases(GBitmap *base_atlas[26], GBitmap *atlas[26]) {
 	}
 }
 
+#if IS_COLOR
 static void modulate_font_atlas(GBitmap *source[26], GBitmap *dest[26], GColor foreground) {
-#if PBL_IF_COLOR_ELSE(true, false)
 	for (int i = 0; i < 26; i++) {
 		GColor8 *source_bitmap = (GColor8 *)gbitmap_get_data(source[i]);
 		GColor8 *dest_bitmap   = (GColor8 *)gbitmap_get_data(dest[i]);
@@ -186,21 +187,8 @@ static void modulate_font_atlas(GBitmap *source[26], GBitmap *dest[26], GColor f
 			}
 		}
 	}
-#else
-	// bool use_dithering = foreground.r <= 1;
-	printf("%d", foreground.r);
-	for (int i = 0; i < 26; i++) {
-		uint8_t *source_bitmap = gbitmap_get_data(source[i]);
-		uint8_t *dest_bitmap   = gbitmap_get_data(dest[i]);
-		int iter_width		   = gbitmap_get_bytes_per_row(source[i]);
-		for (int y = 0; y < BITMAP_HEIGHT; y++) {
-			for (int x = 0; x < iter_width; x++) {
-				dest_bitmap[y * iter_width + x] = source_bitmap[y * iter_width + x];
-			}
-		}
-	}
-#endif
 }
+#endif
 
 uint32_t hash(uint32_t x) {
 	x = ((x >> 16) ^ x) * 0x45d9f3bu;
@@ -456,7 +444,7 @@ static void main_layer_draw(Layer *layer, GContext *ctx) {
 				} else {
 					graphics_context_set_compositing_mode(ctx, GCompOpAnd);
 				}
-				graphics_draw_bitmap_in_rect(ctx, dither, GRect(x, y, BITMAP_WIDTH, BITMAP_HEIGHT));
+				graphics_draw_bitmap_in_rect(ctx, settings.use_fainter_dithering ? dither2 : dither1, GRect(x, y, BITMAP_WIDTH, BITMAP_HEIGHT));
 			}
 #endif
 			x += CHAR_X_STEP;
@@ -509,20 +497,19 @@ static void settings_changed() {
 }
 
 static void init() {
-	printf("Copying");
 	for (int id = RESOURCE_ID_IOSEVKA_ATLAS_0; id < RESOURCE_ID_IOSEVKA_ATLAS_25 + 1; id++) {
 		base_faint_font_atlas[id - RESOURCE_ID_IOSEVKA_ATLAS_0] = gbitmap_create_with_resource(id);
 	}
 
 #if IS_COLOR
-	printf("Copying2");
 	for (int id = RESOURCE_ID_IOSEVKA_ATLAS_BOLD_0; id < RESOURCE_ID_IOSEVKA_ATLAS_BOLD_25 + 1; id++) {
 		base_bold_font_atlas[id - RESOURCE_ID_IOSEVKA_ATLAS_BOLD_0] = gbitmap_create_with_resource(id);
 	}
 #endif
 
 #if !IS_COLOR
-	dither = gbitmap_create_with_resource(RESOURCE_ID_DITHER_PATTERN);
+	dither1 = gbitmap_create_with_resource(RESOURCE_ID_DITHER_PATTERN_1);
+	dither2 = gbitmap_create_with_resource(RESOURCE_ID_DITHER_PATTERN_2);
 #endif
 
 	app_message_open(dict_calc_buffer_size(6), 0);

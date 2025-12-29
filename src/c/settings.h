@@ -13,6 +13,7 @@ typedef struct {
 
 #if !IS_COLOR
 	bool light_on_dark;
+	bool use_fainter_dithering;
 #endif
 } ClaySettings;
 
@@ -27,7 +28,8 @@ static void default_settings() {
 	settings.bright_bold = true;
 
 #if !IS_COLOR
-	settings.light_on_dark = false;
+	settings.light_on_dark		   = false;
+	settings.use_fainter_dithering = false;
 #endif
 }
 
@@ -73,6 +75,7 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 
 #if !IS_COLOR
 	LOAD_BOOL(light_on_dark);
+	LOAD_BOOL(use_fainter_dithering);
 #endif
 
 	save_settings();
