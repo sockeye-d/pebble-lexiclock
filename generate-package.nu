@@ -39,7 +39,7 @@ export def main [] {
     {
         name: lexiclock,
         author: fishy,
-        version: "1.4.0",
+        version: "1.5.0",
         keywords: [ "pebble-watchface" ],
         private: true,
         dependencies: {
