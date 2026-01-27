@@ -1,5 +1,5 @@
 export def main [] {
-    let bold_media = 0..<26 | each {|num|
+    let bold_media = 0..<37 | each {|num|
         [
             {
                 type: bitmap,
@@ -68,6 +68,7 @@ export def main [] {
                 bright_bold,
                 light_on_dark,
                 use_fainter_dithering,
+                date_mode,
                 british_mode,
             ],
             resources: {

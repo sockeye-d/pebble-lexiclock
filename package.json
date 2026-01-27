@@ -34,6 +34,7 @@
       "bright_bold",
       "light_on_dark",
       "use_fainter_dithering",
+      "date_mode",
       "british_mode"
     ],
     "resources": {
@@ -612,6 +613,248 @@
         },
         {
           "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_26",
+          "file": "font-atlas/26.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_26",
+          "file": "font-atlas/26.png",
+          "memoryFormat": "1Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "aplite",
+            "diorite"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_27",
+          "file": "font-atlas/27.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_27",
+          "file": "font-atlas/27.png",
+          "memoryFormat": "1Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "aplite",
+            "diorite"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_28",
+          "file": "font-atlas/28.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_28",
+          "file": "font-atlas/28.png",
+          "memoryFormat": "1Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "aplite",
+            "diorite"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_29",
+          "file": "font-atlas/29.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_29",
+          "file": "font-atlas/29.png",
+          "memoryFormat": "1Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "aplite",
+            "diorite"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_30",
+          "file": "font-atlas/30.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_30",
+          "file": "font-atlas/30.png",
+          "memoryFormat": "1Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "aplite",
+            "diorite"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_31",
+          "file": "font-atlas/31.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_31",
+          "file": "font-atlas/31.png",
+          "memoryFormat": "1Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "aplite",
+            "diorite"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_32",
+          "file": "font-atlas/32.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_32",
+          "file": "font-atlas/32.png",
+          "memoryFormat": "1Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "aplite",
+            "diorite"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_33",
+          "file": "font-atlas/33.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_33",
+          "file": "font-atlas/33.png",
+          "memoryFormat": "1Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "aplite",
+            "diorite"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_34",
+          "file": "font-atlas/34.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_34",
+          "file": "font-atlas/34.png",
+          "memoryFormat": "1Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "aplite",
+            "diorite"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_35",
+          "file": "font-atlas/35.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_35",
+          "file": "font-atlas/35.png",
+          "memoryFormat": "1Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "aplite",
+            "diorite"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_36",
+          "file": "font-atlas/36.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_36",
+          "file": "font-atlas/36.png",
+          "memoryFormat": "1Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "aplite",
+            "diorite"
+          ]
+        },
+        {
+          "type": "bitmap",
           "name": "IOSEVKA_ATLAS_BOLD_0",
           "file": "font-atlas-bold/0.png",
           "memoryFormat": "8Bit",
@@ -889,6 +1132,127 @@
           "type": "bitmap",
           "name": "IOSEVKA_ATLAS_BOLD_25",
           "file": "font-atlas-bold/25.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_26",
+          "file": "font-atlas-bold/26.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_27",
+          "file": "font-atlas-bold/27.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_28",
+          "file": "font-atlas-bold/28.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_29",
+          "file": "font-atlas-bold/29.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_30",
+          "file": "font-atlas-bold/30.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_31",
+          "file": "font-atlas-bold/31.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_32",
+          "file": "font-atlas-bold/32.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_33",
+          "file": "font-atlas-bold/33.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_34",
+          "file": "font-atlas-bold/34.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_35",
+          "file": "font-atlas-bold/35.png",
+          "memoryFormat": "8Bit",
+          "spaceOptimization": "memory",
+          "targetPlatforms": [
+            "basalt",
+            "emery"
+          ]
+        },
+        {
+          "type": "bitmap",
+          "name": "IOSEVKA_ATLAS_BOLD_36",
+          "file": "font-atlas-bold/36.png",
           "memoryFormat": "8Bit",
           "spaceOptimization": "memory",
           "targetPlatforms": [

@@ -62,6 +62,25 @@ new Clay(
             label: "Use a British English locale (by Connope's request)",
         },
         {
+            type: "select",
+            messageKey: "date_mode",
+            label: "Date order",
+            options: [
+                {
+                    label: "month day year",
+                    value: 0
+                },
+                {
+                    label: "day month year",
+                    value: 1
+                },
+                {
+                    label: "year month day",
+                    value: 2
+                },
+            ]
+        },
+        {
             type: "submit",
             defaultValue: "Save settings and exit",
         },

@@ -4,6 +4,12 @@
 
 #define IS_COLOR PBL_IF_COLOR_ELSE(true, false)
 
+typedef enum {
+	DATE_MODE_MDY,
+	DATE_MODE_DMY,
+	DATE_MODE_YMD,
+} DateMode;
+
 typedef struct {
 	GColor bg_color;
 	GColor faint_color;
@@ -11,6 +17,8 @@ typedef struct {
 	bool faint_bold;
 	bool bright_bold;
 	bool british_mode;
+
+	DateMode date_mode;
 
 #if !IS_COLOR
 	bool light_on_dark;
@@ -27,6 +35,8 @@ static void default_settings() {
 
 	settings.faint_bold	 = false;
 	settings.bright_bold = true;
+
+	settings.date_mode = DATE_MODE_YMD;
 
 	settings.british_mode = false;
 
@@ -75,6 +85,8 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 	LOAD_COLOR(bright_color);
 	LOAD_BOOL(faint_bold);
 	LOAD_BOOL(bright_bold);
+
+	LOAD_INT(date_mode);
 
 	LOAD_BOOL(british_mode);
 
