@@ -1,11 +1,5 @@
 const Clay = require('pebble-clay');
 
-// bg_color
-// faint_color
-// bright_color
-// faint_bold
-// bright_bold
-
 new Clay(
     [
         {
@@ -65,6 +59,7 @@ new Clay(
             type: "select",
             messageKey: "date_mode",
             label: "Date order",
+            defaultValue: "0",
             options: [
                 {
                     label: "month day year",
