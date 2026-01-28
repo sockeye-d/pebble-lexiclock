@@ -68,15 +68,15 @@ new Clay(
             options: [
                 {
                     label: "month day year",
-                    value: 0
+                    value: "0"
                 },
                 {
                     label: "day month year",
-                    value: 1
+                    value: "1"
                 },
                 {
                     label: "year month day",
-                    value: 2
+                    value: "2"
                 },
             ]
         },

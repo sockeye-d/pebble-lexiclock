@@ -62,6 +62,13 @@ static void save_settings() {
 			settings.name = name->value->int32;            \
 	} while (false)
 
+#define LOAD_ENUM(name, base_value)                             \
+	do {                                                        \
+		Tuple *name = dict_find(iter, MESSAGE_KEY_##name);      \
+		if (name)                                               \
+			settings.name = *name->value->cstring - base_value; \
+	} while (false)
+
 #define LOAD_COLOR(name)                                       \
 	do {                                                       \
 		Tuple *name = dict_find(iter, MESSAGE_KEY_##name);     \
@@ -86,7 +93,7 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 	LOAD_BOOL(faint_bold);
 	LOAD_BOOL(bright_bold);
 
-	LOAD_INT(date_mode);
+	LOAD_ENUM(date_mode, '0');
 
 	LOAD_BOOL(british_mode);
 
