@@ -1,3 +1,5 @@
+const app_version = "1.5.0"
+
 export def main [] {
     let bold_media = 0..<37 | each {|num|
         [
@@ -39,7 +41,7 @@ export def main [] {
     {
         name: lexiclock,
         author: fishy,
-        version: "1.5.0",
+        version: $app_version,
         keywords: [ "pebble-watchface" ],
         private: true,
         dependencies: {

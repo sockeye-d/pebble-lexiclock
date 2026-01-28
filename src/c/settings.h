@@ -49,7 +49,7 @@ static void default_settings() {
 static void load_settings() {
 	default_settings();
 	persist_read_data(SETTINGS_KEY, &settings, sizeof(settings));
-	if (settings.date_mode < 0 || settings.date_mode > DATE_MODE_YMD) {
+	if (settings.date_mode > DATE_MODE_YMD) {
 		settings.date_mode = DATE_MODE_MDY;
 	}
 }
