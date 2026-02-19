@@ -1,4 +1,4 @@
-const app_version = "1.5.0"
+const app_version = "1.6.0"
 
 export def main [] {
     let bold_media = 0..<37 | each {|num|
