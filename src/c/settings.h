@@ -24,14 +24,17 @@ typedef struct {
 	bool light_on_dark;
 	bool use_fainter_dithering;
 #endif
+
+	bool shake_enabled;
+	bool shake_animation;
 } ClaySettings;
 
 static ClaySettings settings;
 
 static void default_settings() {
-	settings.bg_color	  = GColorBlack;
-	settings.faint_color  = GColorDarkGray;
-	settings.bright_color = GColorInchworm;
+	settings.bg_color	  = GColorWhite;
+	settings.faint_color  = GColorLightGray;
+	settings.bright_color = GColorBlack;
 
 	settings.faint_bold	 = false;
 	settings.bright_bold = true;
@@ -41,9 +44,11 @@ static void default_settings() {
 	settings.british_mode = false;
 
 #if !IS_COLOR
-	settings.light_on_dark		   = false;
+	settings.light_on_dark		   = true;
 	settings.use_fainter_dithering = false;
 #endif
+	settings.shake_enabled	 = true;
+	settings.shake_animation = true;
 }
 
 static void load_settings() {
@@ -104,6 +109,9 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 	LOAD_BOOL(light_on_dark);
 	LOAD_BOOL(use_fainter_dithering);
 #endif
+
+	LOAD_BOOL(shake_enabled);
+	LOAD_BOOL(shake_animation);
 
 	save_settings();
 	settings_changed();

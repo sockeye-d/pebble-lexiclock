@@ -1,4 +1,5 @@
 #include "settings.h"
+#include "src/resource_ids.auto.h"
 
 // #define PREVIEW_TIME
 
@@ -46,10 +47,10 @@ typedef struct {
 static WordTime last_word_time;
 static WordTime word_time;
 
-static GBitmap *base_faint_font_atlas[37];
-static GBitmap *base_bold_font_atlas[37];
-static GBitmap *faint_font_atlas[37];
+static GBitmap *base_font_atlas[37];
+#if IS_COLOR
 static GBitmap *bright_font_atlas[37];
+#endif
 
 #if !IS_COLOR
 static GBitmap *dither1 = NULL;
@@ -298,19 +299,76 @@ static void reset_info_strings() {
 	}
 }
 
-#define WRITE_STRING(m_x, m_y, ...)                                                          \
-	do {                                                                                     \
-		int m_pos = snprintf(&info_strings[m_y][m_x], STRINGS_WIDTH - m_x + 1, __VA_ARGS__); \
-		if (m_x + m_pos < STRINGS_WIDTH) {                                                   \
-			info_strings[m_y][m_x + m_pos] = '-';                                            \
-		}                                                                                    \
+#define WRITE_STRING(m_x, m_y, ...)                                                        \
+	do {                                                                                   \
+		int m_yyy = m_y;                                                                   \
+		int m_pos = snprintf(&info_strings[m_yyy][m_x], STRINGS_WIDTH - m_x, __VA_ARGS__); \
+		if (m_x + m_pos < STRINGS_WIDTH) {                                                 \
+			info_strings[m_yyy][m_x + m_pos] = '-';                                        \
+		}                                                                                  \
 	} while (false)
+
+static char *number_words[][2] = {
+	{ "zero", "" },
+	{ "first", "" },
+	{ "second", "" },
+	{ "third", "" },
+	{ "fourth", "" },
+	{ "fifth", "" },
+	{ "sixth", "" },
+	{ "seventh", "" },
+	{ "eighth", "" },
+	{ "ninth", "" },
+	{ "tenth", "" },
+	{ "eleventh", "" },
+	{ "twelfth", "" },
+	{ "thirteenth", "" },
+	{ "fourteenth", "" },
+	{ "fifteenth", "" },
+	{ "sixteenth", "" },
+	{ "seventeenth", "" },
+	{ "eighteenth", "" },
+	{ "nineteenth", "" },
+	{ "twentieth", "" },
+	{ "twenty", "first" },
+	{ "twenty", "second" },
+	{ "twenty", "third" },
+	{ "twenty", "fourth" },
+	{ "twenty", "fifth" },
+	{ "twenty", "sixth" },
+	{ "twenty", "seventh" },
+	{ "twenty", "eighth" },
+	{ "twenty", "ninth" },
+	{ "thirty", "" },
+	{ "thirty", "first" },
+};
+
+static char *month_words[] = {
+	"january",
+	"february",
+	"march",
+	"april",
+	"may",
+	"june",
+	"july",
+	"august",
+	"september",
+	"october",
+	"november",
+	"december",
+};
 
 static void setup_info_strings(BatteryChargeState battery, struct tm *time) {
 	reset_info_strings();
-#define MONTH WRITE_STRING(0, 0, "%d", time->tm_mon + 1);
-#define DAY WRITE_STRING(0, 1, "%d", time->tm_mday);
-#define YEAR WRITE_STRING(0, 2, "%d", time->tm_year + 1900);
+	bool one_line_day = strlen(number_words[time->tm_mday][1]) == 0;
+#define MONTH WRITE_STRING(0, i++, "%s", month_words[time->tm_mon]);
+#define DAY                                                         \
+	WRITE_STRING(0, i++, "%s", number_words[time->tm_mday][0]);     \
+	if (!one_line_day) {                                            \
+		WRITE_STRING(0, i++, "%s", number_words[time->tm_mday][1]); \
+	}
+#define YEAR WRITE_STRING(0, i++, "%d", time->tm_year + 1900);
+	int i = 0;
 	switch (settings.date_mode) {
 		case DATE_MODE_MDY:
 			MONTH DAY YEAR break;
@@ -322,14 +380,8 @@ static void setup_info_strings(BatteryChargeState battery, struct tm *time) {
 #undef MONTH
 #undef DAY
 #undef YEAR
-	WRITE_STRING(0, STRINGS_HEIGHT - 2, "%d%%", battery.charge_percent);
-	WRITE_STRING(0, STRINGS_HEIGHT - 3, "FISHY");
-	int y = STRINGS_HEIGHT - 1;
-	for (int i = 0; i < STRINGS_WIDTH; i++) {
-		if (i >= (int)(100 - battery.charge_percent) * STRINGS_WIDTH / 100) {
-			info_strings[y][STRINGS_WIDTH - i - 1] = '_';
-		}
-	}
+	WRITE_STRING(0, STRINGS_HEIGHT - 1, "%d%%", battery.charge_percent);
+	WRITE_STRING(0, STRINGS_HEIGHT - 2, "FISHY");
 }
 
 static void animation_callback(void *data) {
@@ -343,10 +395,15 @@ static void animation_callback(void *data) {
 }
 
 static void tap_animation_callback_backward(void *data) {
-	info_string_state--;
-	layer_mark_dirty(main_layer);
-	if (info_string_state > INFO_STRING_NOT_SHOWN) {
-		app_timer_register(50, tap_animation_callback_backward, data);
+	if (settings.shake_animation) {
+		info_string_state--;
+		layer_mark_dirty(main_layer);
+		if (info_string_state > INFO_STRING_NOT_SHOWN) {
+			app_timer_register(50, tap_animation_callback_backward, data);
+		}
+	} else {
+		info_string_state = INFO_STRING_NOT_SHOWN;
+		layer_mark_dirty(main_layer);
 	}
 }
 
@@ -361,25 +418,41 @@ static void tap_animation_callback_forward(void *data) {
 }
 
 static void on_tap(AccelAxisType axis, int32_t direction) {
+	if (!settings.shake_enabled) {
+		return;
+	}
+
 	if (info_string_state == INFO_STRING_NOT_SHOWN) {
-		info_string_state		   = 0;
-		BatteryChargeState battery = battery_state_service_peek();
-		time_t now				   = time(NULL);
-		tm *current_time		   = localtime(&now);
-		setup_info_strings(battery, current_time);
-		tap_animation_callback_forward(NULL);
+		if (settings.shake_animation) {
+			info_string_state		   = 0;
+			BatteryChargeState battery = battery_state_service_peek();
+			time_t now				   = time(NULL);
+			tm *current_time		   = localtime(&now);
+			setup_info_strings(battery, current_time);
+			tap_animation_callback_forward(NULL);
+		} else {
+			info_string_state		   = INFO_STRING_SHOWN;
+			BatteryChargeState battery = battery_state_service_peek();
+			time_t now				   = time(NULL);
+			tm *current_time		   = localtime(&now);
+			setup_info_strings(battery, current_time);
+			layer_mark_dirty(main_layer);
+			app_timer_register(3000, tap_animation_callback_backward, NULL);
+		}
 	}
 }
 
-static void load_font_atlases(GBitmap *base_atlas[RESOURCE_ID_IOSEVKA_ATLAS_36 - RESOURCE_ID_IOSEVKA_ATLAS_0 + 1], GBitmap *atlas[RESOURCE_ID_IOSEVKA_ATLAS_36 - RESOURCE_ID_IOSEVKA_ATLAS_0 + 1]) {
+static void load_font_atlases(uint32_t base_atlas_index, GBitmap *atlas[RESOURCE_ID_IOSEVKA_ATLAS_36 - RESOURCE_ID_IOSEVKA_ATLAS_0 + 1]) {
 	for (int i = 0; i < RESOURCE_ID_IOSEVKA_ATLAS_36 - RESOURCE_ID_IOSEVKA_ATLAS_0 + 1; i++) {
-		const uint8_t *first_data = gbitmap_get_data(base_atlas[i]);
+		GBitmap *bitmap			  = gbitmap_create_with_resource(base_atlas_index + i);
+		const uint8_t *first_data = gbitmap_get_data(bitmap);
 		GBitmap *atlas_bitmap	  = gbitmap_create_blank(GSize(BITMAP_WIDTH, BITMAP_HEIGHT), PBL_IF_COLOR_ELSE(GBitmapFormat8Bit, GBitmapFormat1Bit));
 		memcpy(gbitmap_get_data(atlas_bitmap), first_data, gbitmap_get_bytes_per_row(atlas_bitmap) * BITMAP_HEIGHT);
 		if (atlas[i] != NULL) {
 			gbitmap_destroy(atlas[i]);
 		}
 		atlas[i] = atlas_bitmap;
+		gbitmap_destroy(bitmap);
 	}
 }
 
@@ -457,11 +530,15 @@ static bool word_time_changed() {
 }
 
 void on_time_changed(struct tm *tick_time, TimeUnits units_changed) {
+	static bool first_time = true;
 	parse_word_time(tick_time->tm_hour, tick_time->tm_min);
-	if (word_time_changed()) {
+	if (first_time) {
+		first_time = false;
 		app_timer_register(50, animation_callback, NULL);
 		animation_y = 0;
 		animation_ticks++;
+	} else {
+		layer_mark_dirty(main_layer);
 	}
 }
 
@@ -648,21 +725,21 @@ static void main_layer_draw(Layer *layer, GContext *ctx) {
 			}
 			int index = string_map[*(unsigned char *)&ch];
 #if IS_COLOR
-			graphics_draw_bitmap_in_rect(ctx, (really_lit ? bright_font_atlas : faint_font_atlas)[index], GRect(x, y, BITMAP_WIDTH, BITMAP_HEIGHT));
+			graphics_draw_bitmap_in_rect(ctx, (really_lit ? bright_font_atlas : base_font_atlas)[index], GRect(x, y, BITMAP_WIDTH, BITMAP_HEIGHT));
 #else
 			if (settings.light_on_dark) {
 				graphics_context_set_compositing_mode(ctx, GCompOpAnd);
 			} else {
 				graphics_context_set_compositing_mode(ctx, GCompOpSet);
 			}
-			graphics_draw_bitmap_in_rect(ctx, base_faint_font_atlas[index], GRect(x, y, BITMAP_WIDTH, BITMAP_HEIGHT));
+			graphics_draw_bitmap_in_rect(ctx, base_font_atlas[index], GRect(x, y, BITMAP_WIDTH, BITMAP_HEIGHT));
 			if (really_lit) {
 				if (settings.bright_bold) {
-					graphics_draw_bitmap_in_rect(ctx, base_faint_font_atlas[index], GRect(x + 1, y, BITMAP_WIDTH, BITMAP_HEIGHT));
+					graphics_draw_bitmap_in_rect(ctx, base_font_atlas[index], GRect(x + 1, y, BITMAP_WIDTH, BITMAP_HEIGHT));
 				}
 			} else {
 				if (settings.faint_bold) {
-					graphics_draw_bitmap_in_rect(ctx, base_faint_font_atlas[index], GRect(x + 1, y, BITMAP_WIDTH, BITMAP_HEIGHT));
+					graphics_draw_bitmap_in_rect(ctx, base_font_atlas[index], GRect(x + 1, y, BITMAP_WIDTH, BITMAP_HEIGHT));
 				}
 				if (settings.light_on_dark) {
 					graphics_context_set_compositing_mode(ctx, GCompOpSet);
@@ -706,9 +783,9 @@ static void on_window_unload(Window *window) {
 
 static void settings_changed() {
 #if IS_COLOR
-	load_font_atlases(settings.faint_bold ? base_bold_font_atlas : base_faint_font_atlas, faint_font_atlas);
-	load_font_atlases(settings.bright_bold ? base_bold_font_atlas : base_faint_font_atlas, bright_font_atlas);
-	modulate_font_atlas(faint_font_atlas, faint_font_atlas, settings.faint_color);
+	load_font_atlases(settings.faint_bold ? RESOURCE_ID_IOSEVKA_ATLAS_BOLD_0 : RESOURCE_ID_IOSEVKA_ATLAS_0, base_font_atlas);
+	load_font_atlases(settings.bright_bold ? RESOURCE_ID_IOSEVKA_ATLAS_BOLD_0 : RESOURCE_ID_IOSEVKA_ATLAS_0, bright_font_atlas);
+	modulate_font_atlas(base_font_atlas, base_font_atlas, settings.faint_color);
 	modulate_font_atlas(bright_font_atlas, bright_font_atlas, settings.bright_color);
 #endif
 
@@ -724,22 +801,15 @@ static void settings_changed() {
 }
 
 static void init() {
-	for (int id = RESOURCE_ID_IOSEVKA_ATLAS_0; id < RESOURCE_ID_IOSEVKA_ATLAS_36 + 1; id++) {
-		base_faint_font_atlas[id - RESOURCE_ID_IOSEVKA_ATLAS_0] = gbitmap_create_with_resource(id);
-	}
-
-#if IS_COLOR
-	for (int id = RESOURCE_ID_IOSEVKA_ATLAS_BOLD_0; id < RESOURCE_ID_IOSEVKA_ATLAS_BOLD_36 + 1; id++) {
-		base_bold_font_atlas[id - RESOURCE_ID_IOSEVKA_ATLAS_BOLD_0] = gbitmap_create_with_resource(id);
-	}
-#endif
-
 #if !IS_COLOR
 	dither1 = gbitmap_create_with_resource(RESOURCE_ID_DITHER_PATTERN_1);
 	dither2 = gbitmap_create_with_resource(RESOURCE_ID_DITHER_PATTERN_2);
+	for (int id = RESOURCE_ID_IOSEVKA_ATLAS_0; id < RESOURCE_ID_IOSEVKA_ATLAS_36 + 1; id++) {
+		base_font_atlas[id - RESOURCE_ID_IOSEVKA_ATLAS_0] = gbitmap_create_with_resource(id);
+	}
 #endif
 
-	app_message_open(dict_calc_buffer_size(6), 0);
+	app_message_open(dict_calc_buffer_size(10), 0);
 	app_message_register_inbox_received(inbox_received_handler);
 
 	window = window_create();
@@ -754,14 +824,12 @@ static void init() {
 static void deinit() {
 	window_destroy(window);
 	app_message_deregister_callbacks();
-	for (size_t i = 0; i < 26; i++) {
-		gbitmap_destroy(base_faint_font_atlas[i]);
 #if IS_COLOR
-		gbitmap_destroy(base_bold_font_atlas[i]);
-		gbitmap_destroy(faint_font_atlas[i]);
+	for (size_t i = 0; i < 26; i++) {
+		gbitmap_destroy(base_font_atlas[i]);
 		gbitmap_destroy(bright_font_atlas[i]);
-#endif
 	}
+#endif
 }
 
 int main() {

@@ -1,7 +1,7 @@
 const app_version = "1.6.0"
 
 export def main [] {
-    let bold_media = 0..<37 | each {|num|
+    let media = 0..<37 | each {|num|
         [
             {
                 type: bitmap,
@@ -38,8 +38,9 @@ export def main [] {
             },
         ]
     } | flatten | sort-by name --natural
+
     {
-        name: lexiclock,
+        name: 'lexiclock 2',
         author: fishy,
         version: $app_version,
         keywords: [ "pebble-watchface" ],
@@ -51,8 +52,8 @@ export def main [] {
             configurable,
         ],
         pebble: {
-            displayName: lexiclock,
-            uuid: 1c6a1f0b-8194-491f-acc4-fc06a6f9966d,
+            displayName: 'lexiclock 2',
+            uuid: 7e68af47-c9c4-4f0a-b40e-ce13f813ec2f,
             sdkVersion: "3",
             enableMultiJS: true,
             targetPlatforms: [
@@ -72,14 +73,22 @@ export def main [] {
                 use_fainter_dithering,
                 date_mode,
                 british_mode,
+                shake_enabled,
+                shake_animation,
             ],
             resources: {
-                media: ($bold_media ++ [
+                media: ([
                     {
-                        type: bitmap,
-                        menuIcon: true,
-                        name: IMAGE_MENU_ICON,
+                        menuIcon: true
+                        name: IMAGE_MENU_ICON
                         file: launcher.png
+                        type: png
+                        targetPlatforms: [
+                            aplite,
+                            diorite,
+                            basalt,
+                            emery,
+                        ]
                     },
                     {
                         type: bitmap,
@@ -103,7 +112,7 @@ export def main [] {
                             diorite,
                         ]
                     },
-                ]),
+                ] ++ $media),
             },
         },
     }
