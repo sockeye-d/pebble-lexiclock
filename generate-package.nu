@@ -1,4 +1,4 @@
-const app_version = "1.6.0"
+const app_version = "1.0.0"
 
 export def main [] {
     let media = 0..<37 | each {|num|
